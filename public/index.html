@@ -2131,7 +2131,7 @@ function piperInit(){
     window.ort.env.wasm.wasmPaths='./vendor/ort/';
     window.ort.env.wasm.numThreads=1;
     vstat('Loading English voice model from this CourtFlow site (about 60 MB)…');
-    PIPER_ENGINE=await window.Piper.createEngine('./en_US-joe-medium.onnx','./en_US-joe-medium.onnx.json');
+    PIPER_ENGINE=await window.Piper.createEngine('https://courtflow-voice-proxy.shierosales.workers.dev/','./en_US-joe-medium.onnx.json');
     await window.Piper.getPhonemizer();
     vstat('Natural offline voice is ready.');
     return PIPER_ENGINE;
