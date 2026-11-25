@@ -1,0 +1,13 @@
+COURTFLOW CLUB REWARDS UPDATE
+
+UI changes
+- Attendance stamps now display in two rows of five, with larger stamp marks.
+- The 11th mark remains the free-session reward; all reward/footer copy is centered below the stamps.
+- Removed the color preset selector. Individual color controls are arranged in three columns (three rows for seven controls).
+- Uploaded club logos are previewed and stored as the original file. No background removal, recoloring, resizing, filtering, or other image edits are applied.
+- Added organizer-assigned membership labels: Founding Member, Monthly Subscriber, and Pay Per Play. The selected label appears on the member's Club Rewards card.
+
+DATABASE UPDATE REQUIRED FOR EXISTING INSTALLATIONS
+Run supabase-rewards-membership-type-update.sql once in the Supabase SQL Editor. This adds the membership_type field and secure organizer-only update function, and updates the public card/member RPC responses.
+
+After running the SQL migration, deploy the updated application files. Existing members start as Not assigned; choose each member's type in the Membership Type column under the Club Rewards tab.

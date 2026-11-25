@@ -1,0 +1,7 @@
+COURTFLOW V27 UPDATE
+- Current Session navigation icon is a pickleball.
+- Up Next displays Team A and Team B in separate color-coded cards.
+- History includes player-name search and organizer score correction.
+- Leaderboard and Ratings include Screenshot / Share export buttons with session name and date headers.
+- Waiting-time counters update live every second while the session tab is visible.
+- Round Robin Double wording removed where present; existing Round Robin options are retained.

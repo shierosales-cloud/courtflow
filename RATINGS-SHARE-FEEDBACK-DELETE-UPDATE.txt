@@ -1,0 +1,21 @@
+CourtFlow v27 — Ratings Share & Feedback Delete Update
+
+1) Ratings share image
+- Player name and promotion/move-up note are extracted separately.
+- Promotion note is displayed as a compact, smaller second line under the player name, matching the on-screen Ratings table.
+- The note is clipped with an ellipsis where needed so it stays within the share-card player column.
+
+2) Organizer Feedback tab
+- Each verified feedback submission now has a Delete feedback action.
+- Deletion is deliberately two-step: tap Delete feedback, review the permanent-deletion warning, then tap Confirm delete. Cancel is available before confirmation.
+- The Netlify Function validates the Supabase session and allow-listed organizer email before reading or deleting submissions.
+- The function verifies the submission ID belongs to the cf-session-feedback Netlify form before calling Netlify's DELETE /submissions/{submission_id} API endpoint.
+- Deleting one feedback submission does not delete the form or other submissions.
+
+3) Cache
+- Service-worker cache key increased to v61 so deployed clients refresh the updated app assets.
+
+Deployment
+- Deploy the contents of CourtFlow-app-final-v27 using the existing Netlify project.
+- No new environment variables or database migration are required.
+- Existing required variables remain: NETLIFY_AUTH_TOKEN, NETLIFY_SITE_ID, SUPABASE_URL, SUPABASE_ANON_KEY, COURTFLOW_FEEDBACK_ADMIN_EMAILS.

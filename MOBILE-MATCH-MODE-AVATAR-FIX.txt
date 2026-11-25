@@ -1,0 +1,8 @@
+CourtFlow v27 — iPhone Match Mode and Player Avatar Fix
+
+- On narrow mobile screens, Match Mode choices now stack one per row with full-width tap targets and wrapping labels.
+- On tablet widths, Match Mode uses a balanced two-column layout; desktop retains four columns.
+- The Match Mode description remains above the controls and wraps naturally.
+- Player Pool initials-only fallback avatars now have fixed 42x42 dimensions, zero flex growth, a 1:1 aspect ratio, and circular clipping.
+- Player details retain the flexible layout; only the fallback avatar is fixed-size.
+- Service worker cache version bumped to v68 so installed devices request the refreshed assets.

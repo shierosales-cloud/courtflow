@@ -1,0 +1,10 @@
+CourtFlow v27 — Players and Ratings Tab Spacing Update
+
+Changes:
+- Added matching outer panel borders, backgrounds, corner radius and subtle shadows to Players and Ratings tabs.
+- Added consistent top and inner spacing to match Leaderboard, History and Line-Up tabs.
+- Preserved existing widths, table layouts and responsive behavior.
+- Added mobile-specific margins and padding to keep content comfortably inset.
+- Bumped the service-worker cache version so devices fetch the refreshed UI.
+
+No database or environment variable changes are required.

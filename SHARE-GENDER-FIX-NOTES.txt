@@ -1,0 +1,12 @@
+CourtFlow v27 — Share and Session Gender Fix
+
+Changes in this package:
+- Share action now opens a visible preparation dialog immediately.
+- Replaced the external html2canvas/CDN screenshot dependency with an in-app SVG-to-PNG share-card renderer for Leaderboard and Ratings.
+- Share action provides native image sharing where supported and a save-image fallback otherwise.
+- Player gender is copied from the saved Player Pool profile when adding that profile to the current session.
+- Current Session player rows show the gender label beside the player's status, including on narrow screens.
+- Service worker cache version incremented so installed devices pick up the corrected app.
+
+Deployment: extract this package and run `netlify.cmd link` (choose the existing CourtFlow site), then `netlify.cmd deploy --prod` from the CourtFlow-app-final-v27 folder. Existing Netlify environment variables are retained.
+- Existing session players with a saved Player Pool profile reference can have a missing gender restored automatically when the Player Pool loads; no manual remove/re-add is required for those linked profiles.

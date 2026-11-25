@@ -1,0 +1,39 @@
+COURTFLOW v27 — ORGANIZER FEEDBACK DASHBOARD
+
+WHAT'S NEW
+- Added a Feedback tab to the organizer home screen. It is available even when no session is active.
+- Displays total submissions and average overall, organization, and match-rotation ratings.
+- Shows individual player, session, timestamp, ratings, and comments.
+- Supports search, session filtering, refresh, and CSV export.
+- Reads existing Netlify Forms submissions for cf-session-feedback. Existing submissions are not migrated or deleted.
+- The Netlify personal access token is used only by a server-side Netlify Function and is never placed in browser JavaScript.
+
+REQUIRED NETLIFY ENVIRONMENT VARIABLES
+In Netlify: Site configuration > Environment variables, add these variables for the site's Functions runtime:
+
+1. NETLIFY_AUTH_TOKEN
+   A Netlify personal access token created by the Netlify account owner.
+2. NETLIFY_SITE_ID
+   The CourtFlow site's Project ID (also called Site ID).
+3. SUPABASE_URL
+   https://kwhofscwbrbxpbbxkswy.supabase.co
+4. SUPABASE_ANON_KEY
+   The same Supabase publishable/anon key already used by CourtFlow's CFG.key in public/index.html.
+5. COURTFLOW_FEEDBACK_ADMIN_EMAILS
+   Comma-separated email address(es) of the organizer account(s) allowed to view feedback. Use the exact email address used to sign in to CourtFlow.
+
+Do not put NETLIFY_AUTH_TOKEN in index.html, localStorage, or any client-side file. Only add it to Netlify's environment variables. Limit access to the Netlify account and rotate the token if it is ever exposed.
+
+DEPLOY
+1. In Netlify, open CourtFlow > Site configuration > Environment variables.
+2. Add the four variables above. Ensure the variables are available to Functions at runtime.
+3. Confirm Forms > Form detection is enabled.
+4. Deploy this project using Netlify CLI or Git-connected deployment. For CLI: install Node.js, run `npm install -g netlify-cli`, open a terminal in this project folder, run `netlify login`, then `netlify link` and select the existing CourtFlow site. Finally run `netlify deploy --prod`. The netlify.toml file configures `public/` as the publish folder and `netlify/functions/` as the functions folder. Do not drag-and-drop only the public folder: that would omit the serverless function.
+5. After deployment, sign in to CourtFlow and open the Feedback tab on the organizer home screen.
+6. Use Refresh. The function validates the signed-in CourtFlow account with Supabase, then retrieves the cf-session-feedback submissions from Netlify's API.
+
+IMPORTANT
+- The dashboard displays verified submissions returned by Netlify's form submissions API. Spam submissions are not included in this dashboard; review them in Netlify > Forms > cf-session-feedback > Spam submissions.
+- Netlify form detection must be enabled and the form must have been detected in a deploy. The static __forms.html file remains at the site root.
+- Only email addresses listed in COURTFLOW_FEEDBACK_ADMIN_EMAILS can access the dashboard. Keep this allowlist limited to organizers; do not add player emails.
+- This build cannot be live-tested against the user's Netlify account from this environment. Complete the environment variable setup and deployment before expecting live submissions to appear.

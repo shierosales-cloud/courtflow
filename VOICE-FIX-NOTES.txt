@@ -1,0 +1,27 @@
+COURTFLOW V27 — FULLY BUNDLED OFFLINE VOICE
+
+This package includes the Piper browser engine, ONNX Runtime Web, the phonemizer JavaScript/WASM/data files, and the English en_US-joe-medium ONNX voice model. Voice assets are served from this CourtFlow deployment itself; the app does not fetch them from GitHub, jsDelivr, another CDN, Google Cloud, or the Supabase TTS function.
+
+FIRST USE
+1. Deploy this package to Netlify.
+2. Open CourtFlow on the iPad while online and choose Natural offline voice.
+3. Tap Announce and keep CourtFlow open while the browser loads the bundled runtime and model from your own Netlify site. The ONNX model is about 60 MB; the phonemizer data is about 17 MB.
+4. Wait for “Natural offline voice is ready.” Subsequent announcements synthesize locally. The service worker caches same-origin files when iPadOS/browser storage permits; offline reuse is subject to cache retention and available storage.
+
+NETLIFY DEPLOYMENT
+1. Unzip this package.
+2. In Netlify, deploy the CONTENTS of the CourtFlow-app-final-v27 folder (the folder containing index.html). Keep the vendor folder and en_US-joe-medium.onnx files beside index.html at the published site root.
+3. On the iPad, close CourtFlow fully, reopen the site while online, and reload so the new service worker takes control. If installed as a Home Screen app, remove/re-add the shortcut only if it continues loading the old version.
+4. Select the JBL speaker in iPad Control Center before testing Announce.
+
+IMPORTANT
+- No Google Cloud Console setup or Supabase TTS deployment is required.
+- The app uses iPadOS/browser audio routing. It cannot force Bluetooth output; select the JBL as the active audio destination.
+- The first use still transfers the model/runtime from your Netlify site to the iPad. “Bundled” means the assets are included in the deployed site ZIP, not pre-installed into the iPad browser.
+
+FETCH ERROR FIX (v51)
+The service worker always returns a valid Response for failed requests. Failed cache writes (including iPad storage/quota errors for the large model) do not break successful downloads, and large-file cache writes are started asynchronously so they do not hold the download response open. Cross-origin requests are left to the browser.
+
+
+FETCH FIX (v76 — iOS LARGE VOICE ASSETS)
+The service worker no longer clones/tees large .onnx, .wasm, or phonemizer .data downloads for Cache Storage. These are returned directly from the network to avoid iOS Safari FetchEvent/respondWith failures during large streamed downloads. Small runtime scripts and configuration files remain cacheable. Natural offline voice therefore needs the large model/runtime assets to have been downloaded successfully; browser/service-worker retention of large files is subject to iOS storage policy.

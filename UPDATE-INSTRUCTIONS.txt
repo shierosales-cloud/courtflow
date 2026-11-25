@@ -1,0 +1,24 @@
+COURTFLOW v27 — FULLY BUNDLED VOICE UPDATE
+
+1. Back up your currently hosted CourtFlow files.
+2. Unzip this package. Upload the CONTENTS of the CourtFlow-app-final-v27 folder (the folder containing index.html) to your Netlify site. Preserve the folder structure, especially vendor/ and the en_US-joe-medium.onnx files beside index.html.
+3. Do not deploy the Supabase TTS Edge Function. Announcements use the bundled local Piper engine and model.
+4. On the iPad, close the installed CourtFlow PWA fully, reopen the site while online, and reload. The service worker cache version has been changed to courtflow-v53-player-profiles-blue-lime.
+5. In Up Next > Voice, choose “Natural voice (offline after first download)”.
+6. Select the JBL speaker from iPad Control Center. Tap Announce while online and keep CourtFlow open until “Natural offline voice is ready” appears and the announcement plays. The model is about 60 MB and phonemizer data about 17 MB; these are downloaded from your own Netlify site, not an external CDN.
+7. Tap Announce again to verify a second announcement. Later use may work offline if iPadOS retains the service-worker cache and storage is available.
+
+The Device voice option remains available as a fallback, but its output routing is controlled by iPadOS. This package changes the voice loader/assets and service-worker version while retaining the rest of the app package.
+
+
+PERMANENT PLAYER PROFILES (NEW)
+Before deploying, back up your Supabase project and run supabase-player-profiles.sql once in the Supabase SQL Editor for the same project. This migration is required for the reusable player registration link, private player edit links, profile photos, and organizer profile directory. After the SQL succeeds, upload the site files as described above. In CourtFlow, open Home > Player Profiles to create/copy the reusable registration link or show its QR. Players register once and keep their private edit link. The organizer adds selected profiles to a session from the Player Profile Directory; profiles are never automatically added to a session. WhatsApp numbers remain organizer-only and are not sent to the public live view.
+
+VISUAL UPDATE
+The premium theme now uses the original blue and lime palette. When four courts are selected, Current Session displays them in a 2-by-2 grid in the regular view as well as full-screen.
+
+PLAYER DIRECTORY / GENDER UPDATE
+- This update adds Gender to permanent player registration profiles, displays a player rating guide during registration, and adds a searchable Player Directory tab.
+- It renames the session Players tab to Players Line Up.
+- Before using the new gender field, run the updated supabase-player-profiles.sql file in the Supabase SQL Editor. It adds the gender column and updates the profile save/read function.
+- No player roster or session data is intentionally reset by this update.

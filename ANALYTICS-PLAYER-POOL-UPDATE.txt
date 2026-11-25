@@ -1,0 +1,28 @@
+COURTFLOW — ANALYTICS & PLAYER POOL UPDATE
+
+WHAT'S NEW
+
+1. Home > Analytics
+   - Added an Analytics tab with an icon consistent with the other Home tabs.
+   - Shows total unique players with recorded attendance, new players (one recorded session), returning players (more than one recorded session), average attendance per session, and player satisfaction.
+   - Shows a Most Attended Players ranking based on the number of sessions attended.
+   - Satisfaction uses the existing post-session feedback submissions: Overall is shown as the main score, with Organization and Rotation averages also displayed.
+   - The Refresh control reloads feedback data.
+
+2. Player Pool
+   - Added a Sessions Attended count for each player profile.
+   - Added a Membership Type selector: Not tagged, Founding Member, Monthly Subscriber, or Pay Per Play.
+   - Membership tags are stored in the app's existing shared state and do not require a Supabase table/schema migration.
+
+ATTENDANCE TRACKING
+
+- New sessions record players as they are added, including players who attend but do not get assigned to a match.
+- Carry-over players are recorded when a new session starts.
+- The attendee list is saved with the session archive.
+- Existing archived sessions predate attendee-level tracking. For those sessions, attendance is estimated from the player standings/match participants saved by the previous version. Players who attended but did not play in those older sessions cannot be reconstructed from the existing archive data.
+- During an active session, the Analytics tab includes that current session in the attendance count and average.
+
+DEPLOYMENT
+
+- This update is additive to the existing app. Existing files, assets, Netlify configuration, Supabase setup, and other features are retained.
+- Deploy the contents of the included app folder to Netlify using the same publish-directory configuration as the current deployment (the existing netlify.toml points to the public folder).

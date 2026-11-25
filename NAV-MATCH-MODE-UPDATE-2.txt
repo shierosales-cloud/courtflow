@@ -1,0 +1,5 @@
+CourtFlow v27 update:
+- Added Win/Loss to Match Mode. It uses the existing record-based selection scoring derived from each player's wins and losses.
+- Updated Clubhouse navigation icon to a clubhouse/house symbol in both home and session navigation.
+- Updated Current Session icon to crossed pickleball paddles with a ball.
+- No database migration required.

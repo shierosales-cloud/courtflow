@@ -1,0 +1,21 @@
+CourtFlow v27 — UI refresh and post-session rating recap
+
+Included:
+- Responsive visual refresh for desktop, tablet, and mobile layouts.
+- Polished icon treatment for home/session navigation and Share controls.
+- Replaced 'Screenshot / Share' actions with a single Share action and preview dialog.
+- Uses html2canvas for DOM-based capture instead of SVG foreignObject rasterization.
+- Adds each player's before-session and after-session rating to the post-session recap and WhatsApp thank-you message.
+- Adds rating_before and rating_after to personalized feedback form submissions and dashboard display.
+- Bumped the service worker cache version to ensure refreshed assets are loaded.
+
+Deployment:
+- Deploy from this project root with: netlify.cmd deploy --prod
+- Keep existing Netlify Forms and feedback-dashboard environment variables configured.
+- Screenshot capture loads html2canvas 1.4.1 from cdnjs at first use; an internet connection is required for first-time loading.
+
+Additional verification:
+- Updated the static Netlify Forms blueprint with rating_before and rating_after so these fields are recognised at deploy time.
+- The rating card moves into the thank-you state after a successful feedback submission, avoiding a duplicate rating card.
+- Verified the inline application JavaScript and service worker with Node.js syntax checks, and verified the ZIP archive integrity.
+- Device testing on physical iPhone/iPad hardware has not been performed; confirm native file sharing on the target devices after deployment.

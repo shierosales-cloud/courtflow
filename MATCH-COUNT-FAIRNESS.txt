@@ -1,0 +1,16 @@
+COURTFLOW V27 — UNIVERSAL MATCH-COUNT FAIRNESS
+
+The match generator now applies one shared fairness priority in all four Match Modes:
+
+1. Fewest projected matches in the current session first. The count includes generated Up Next matches, matches on court / in progress, and completed matches. Hand-built matches also count toward a player's session total.
+2. Longest waiting time next. For FIFO, the existing queue order is used as the waiting-time tie-breaker; the selected players are moved to the back of that queue.
+3. The selected Match Mode then guides the choice:
+   - Smart Rotation: partner/opponent rotation and skill-balanced teams.
+   - FIFO: queue order among players with the same match count.
+   - Skill Match: players with closer current ratings are preferred when fairness priorities are tied.
+   - Win/Loss: players with closer session win-rate scores are preferred when fairness priorities are tied.
+4. Repeated partners/opponents and back-to-back matches are avoided where possible.
+
+Fairness is a priority, not an absolute guarantee of identical totals in every circumstance. Gender/match-type eligibility, Beginner/Open skill groups, players being OFF, manual edits, unavailable players, and the number of match slots can make exact equality impossible. When a match type cannot use the lowest-count players, the generator uses the next eligible players rather than creating an invalid match.
+
+No Supabase SQL migration is required for this change. Existing player data, session history, ratings, profiles, and other app assets are preserved.

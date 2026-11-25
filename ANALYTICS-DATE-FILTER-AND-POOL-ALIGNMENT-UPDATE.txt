@@ -1,0 +1,11 @@
+CourtFlow — Analytics Date Filter & Player Pool Alignment Update
+
+Changes in this update:
+- Centered all Player Pool table headers in Home and Current Session.
+- Kept player names and player details left-aligned in both Player Pool tables.
+- Centered the Sessions Attended values in the Most Attended Players Analytics table.
+- Added a specific-date filter to Analytics. Choosing a date filters attendance metrics, player ranking, and received feedback to that local calendar day.
+- Clearing the selected date returns Analytics to the current Weekly or Monthly range. Selecting Weekly or Monthly clears any specific-date override.
+- Existing all-time Player Pool attendance counts are unchanged.
+
+No database schema or existing Netlify function changes are required.

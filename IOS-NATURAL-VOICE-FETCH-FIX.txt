@@ -1,0 +1,7 @@
+COURTFLOW v27 — iOS NATURAL VOICE FETCH FIX
+
+This update addresses iOS Safari service-worker failures while downloading the bundled Piper voice assets. The service worker no longer clones large .onnx, .wasm, or .data responses into Cache Storage. It returns those large responses directly from the network. Small runtime scripts/configuration remain cacheable.
+
+After deploying, open CourtFlow online on the iPhone/iPad and tap Announce once. Keep the app open until it reports that Natural offline voice is ready. iOS may evict large cached assets under storage pressure, so offline reuse of the 60 MB model is not guaranteed by the browser.
+
+The Settings layout did not cause the audio failure. The likely interaction was the service worker's handling of large voice/model downloads. This patch targets that path while preserving offline session-state synchronization.

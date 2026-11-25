@@ -1,0 +1,22 @@
+COURTFLOW CLUB REWARDS CARD - 3D REDESIGN
+
+- New 3D card: extruded edge, gloss, depth shadows, embossed text, 3D pickleball stamps, pointer tilt.
+- Logo upload automatically removes the white background (edge-connected white only, cropped, saved as transparent PNG).
+  Logos uploaded before this update keep their white box until re-uploaded once.
+- Bigger stamps (5 x 2), much larger club name, program name and text that fill the card.
+- Big FREE SESSION pickleball stamp beside the 11th mark.
+- Color customization reduced to two colors: Card Color and Accent Color (text color is automatic).
+- Enrolled Players table now matches the Player Pool layout and membership selector, and membership type stays in sync with the Player Pool.
+No database changes needed. Only public/index.html changed.
+
+FOLLOW-UP
+- QR code moved to the card bottom, beside the reward text.
+- Players can be removed even when enrolled in Rewards. Run supabase-player-delete-update.sql once in the Supabase SQL Editor (it also deletes their card, stamps and rewards).
+- Newly added players (manual add or registration link) are automatically tagged Pay Per Play. Players that already exist are left untouched.
+
+PLAYER LINKS UPDATE
+- Run supabase-player-links-update.sql once in the Supabase SQL Editor.
+- Player Pool has a new "Player Link" column: token preview, Copy Link and WhatsApp share per player.
+  Players registered earlier get their link saved automatically when they next open it; otherwise tap Get Link (creates a new link, old one stops working).
+- After registration the player no longer sees "Copy My Player View Link". They can Copy My Edit Link and Save My Profile on This Device,
+  so CourtFlow opens to their profile, Club Rewards card and edit link on that device.

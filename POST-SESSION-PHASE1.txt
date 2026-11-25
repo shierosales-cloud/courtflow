@@ -1,0 +1,28 @@
+COURTFLOW V27 - PHASE 1 POST-SESSION PLAYER RECAP
+
+WHAT'S NEW
+- When an organizer ends a session, CourtFlow saves a private post-session recap in Previous Sessions.
+- Each participating player's row shows matches played, wins, losses and win percentage.
+- Open WhatsApp creates a personalized, pre-filled message for that player.
+- The message includes individual match results, partner/opponents, and recorded scores when available.
+- Each message includes a player-specific feedback form link.
+- Feedback asks for overall experience, organization/communication, match rotation/fairness, and optional comments.
+- Messages are not sent automatically. The organizer reviews and taps Send in WhatsApp.
+- No Supabase SQL migration or WhatsApp Business API is required for Phase 1.
+
+IMPORTANT NETLIFY SETUP FOR FEEDBACK COLLECTION
+1. Deploy the updated app files.
+2. In the Netlify site dashboard, open Forms and choose Enable form detection (if it is not already enabled).
+3. Trigger a new deployment after enabling detection.
+4. After deployment, check Forms for the form named "cf-session-feedback".
+5. Send a test feedback response and confirm it appears in Netlify Forms submissions.
+
+WHATSAPP NUMBER REQUIREMENT
+- A player's WhatsApp number must be saved on their linked Player Pool profile.
+- The app uses the profile linked to that session player. Players without a linked profile/number will show "No linked WhatsApp number" until their profile is updated.
+- Numbers should include country code, e.g. +971...
+
+NOTES
+- WhatsApp opens with a prepared message; the organizer must review and send it.
+- Feedback submissions are stored in Netlify Forms, not Supabase.
+- This build has been syntax-checked and ZIP-integrity checked. It has not been deployed to the user's Netlify site or tested on a physical iPad.

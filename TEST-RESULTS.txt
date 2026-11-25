@@ -1,0 +1,96 @@
+
+=== RESULTS ===
+PASS 1  Generate lineup with 10 early players, assign 2 courts
+        Created 10 games (10 open). Everyone plays 4 games. Repeats:
+PASS 2  Add 3 late players
+PASS 3  Late players enter upcoming rotation; court-assigned matches untouched
+        late players in [3,3,3] upcoming matches; courts unchanged=true; first slots at games [0,0,0]
+PASS 3b  No full regeneration: upcoming match count unchanged, no duplicate player in a match
+        8 -> 8; load spread max-min=1; msg: Open Skill line-up updated: 11 spots given to players with fewer matches. Matches already on a court or in progress were not changed.
+PASS 6  Late arrivals play alongside early arrivals
+PASS 4  ON->OFF excludes player from future unassigned matches
+        in 3 upcoming matches before, 0 after; note: Open Skill line-up updated: 3 slots freed, 3 slots refilled (3 slots had to break the rest rule because no one else was free). Matches already on a court or in progress were not changed.
+PASS 5  OFF->ON preserves stats and re-enters rotation
+        stats before/after {"w":1,"l":0,"lc":1700000000000,"at":1700000000000,"r":3.1}; back in 3 upcoming matches
+PASS 7  Fewer completed matches get priority (live selection)
+        ["P5","P6","P7","P8"]
+PASS 8  Waiting time since last match influences selection
+        ["P1","P2","P3","P4"]
+PASS 9  Early arrivals first in round 1, but no permanent priority: round 2 goes to those not yet played; a late arrival with 0 played then outranks everyone who has played
+        {"r1":["A1","A2","A3","A4"],"r2":["B1","B2","B3","B4"],"r3":["A1","A2","A3","Z1"]}
+PASS 10  Repeated teammates minimized (10 players/10 matches; 12 players/12 matches)
+        {"np":10,"matches":10,"pm":1,"om":2,"pairs":20,"opp":33,"spread":0} {"np":12,"matches":12,"pm":1,"om":3,"pairs":24,"opp":36,"spread":0}
+PASS 11  Opponent diversity considered: fewer repeated opponent/partner pairs than with pairing cost switched off
+        with diversity: opp-pairs 33/36 distinct, max repeat 2/3, partner pairs 20/24  |  pairing cost off: opp-pairs 32/12, max repeat 2/4, partner pairs 5/6
+PASS 12  Fairness independent per group; Beginner change does not touch Open lineup
+        {"pure":true,"bn":5,"on":10,"oSame":true,"bSpread":1,"B7":2,"m1":"Created 5 games (5 open). 2 players play"}
+PASS 13  Use Court shows lineup selection with both options; nothing assigned yet
+        options b,o
+PASS 14  Selecting Beginner assigns the next eligible Beginner match
+        Court 1: next Beginner match assigned.
+PASS 15  Selecting Open Skill assigns the next eligible Open match
+PASS 16  Different lineups assigned to different courts
+PASS 20  Lineups never mix during assignment
+PASS 17  A fresh selection is required for every new assignment (dialog shown again, no default, nothing auto-assigned, focus not on an option)
+        {"ac":0,"sel":0,"assigned":false,"focus":"*x"}
+PASS 18  Beginner not automatically prioritized (auto-queue leaves court waiting when both lineups are eligible)
+PASS 19  Open Skill not automatically prioritized (same check, either lineup)
+PASS 21  Only one lineup eligible: used automatically without a prompt
+        Court 1: next Open Skill match assigned.
+PASS 22  Neither lineup eligible: clear message, nothing assigned
+        Use Court 1No eligible matches are currently available in either lineup. Add players, gene
+PASS 22b  Selected lineup emptied before processing: message shown, dialog stays so user can try again
+        Use Court 1There is no eligible Beginner match right now.Choose which lineup supplies the next match
+PASS 22c  Retry after failure works
+PASS 23  Ongoing match never regenerated/modified by availability changes
+PASS 24  Court-assigned (held) match never regenerated/reassigned by availability changes
+        (court 2 was held, hd=-1)
+PASS 25  Completed matches and results retained permanently (incl. across regeneration/availability changes)
+        {"kept":true,"score":[11,5],"grp":"o","w":1}
+PASS 26  Multiple courts cannot assign the same player simultaneously
+        second court: none
+PASS 27  Same match cannot be assigned to multiple courts (ids de-duplicated; a stale copy of an assigned id is rejected)
+        {"uniqueIds":true,"a":true,"b":false,"bcode":"none"}
+PASS 28  Incompatible player groups cannot be mixed (mixed matches are blanked, never assignable)
+        [["","","O1","O2"],["B1","B2","B3",""]]
+PASS 29  Insufficient eligible players handled (message, no assignment)
+        Add at least 4 active Open Skill players first. / none
+PASS 30  Overlapping requests handled safely (second refused as busy, first completes)
+        {"innerBusy":true,"outerOk":true,"rolled":true,"failCode":"error","lockFree":true}
+PASS 30b  Failed assignment rolls back fully and releases the lock
+PASS D1  Re-rendering/recalculating is idempotent (no duplicate scheduling events); duplicate player names rejected
+        {"stable":true,"dupBlocked":true}
+PASS S1  Session stats reset only when a new session starts (rating history kept)
+        {"w":0,"r":3,"saved":1}
+PASS N1  Assigned match is NOT started automatically (held, Start Game button shown, no timer)
+        {"hd":-1,"held":true,"end":0}
+PASS N2  After a match completes, a lineup popup opens for that court (both options, nothing auto-assigned)
+        {"open":true,"title":"Use Court 1C","g":null,"hist":1,"opts":"b,o"}
+PASS N3  Next match asks again; first choice (Beginner) does not decide the next (Open chosen freely)
+        first=b second=o
+PASS N4  Winners never keep a court automatically (every new match goes through the popup)
+PASS R1  1 court: no player in back-to-back games (8 players, 8 games, 4 runs)
+        [0,0,0,0]
+PASS R2  2 courts: no player in the next 2 games (12 players, 9 games, 4 runs)
+        [0,0,0,0]
+PASS R3  3 courts: no player in the next 3 games (16 players, 8 games, 3 runs)
+        [0,0,0]
+PASS R4  Too few players for the rule (8 players, 2 courts): violations minimized and the message says so
+        [8,8] Created 6 games (6 open). Everyone plays 3 games. Repeats: 0 partner, 12 opponent. They are kept to the minimum found; tap Generate again to try another arrangement. Rest rule: with 2 courts a player should skip the next 2 games, but 8 players can’t fully allow that (about 12 are needed); 8 close repeats kept to the minimum. This replaced the earlier generated Open Skill matches.
+PASS R5  Adding late players and toggling OFF/ON keeps the rest rule (no new violations) while late players still get in
+        {"v0":0,"v1":0,"v2":0,"v3":0,"late":[3,3,3,3],"note":"Open Skill line-up updated: 4 spots given to players with fewer matches. Matches already on a court or in progress were not changed."}
+PASS G1  Total men and women shown (session tiles and Players tab)
+        {"st":["0Matches Played","0In Progress","0In Line-Up","6Players","2Men","3Women"],"q":"6 Players2 Men3 Women1 No gender set6 Waiting0 On Court0 Paused","c":{"M":2,"W":3,"U":1}}
+PASS X1  10 men + 3 women, mixed + open: equal games, 6 mixed (all women slots used) and 7 open for the leftover men
+        {"mixed":6,"any":7}
+PASS X2  7 men + 5 women: mixed first (5 mixed), Open only 1
+        {"any":1,"mixed":5}
+PASS X3  8 men + 5 women, all types ticked: equal games, Open not needed
+        {"mixed":4,"men":6,"women":3}
+PASS X4  9 men + 4 women (previously failed): equal games, valid match types
+        {"mixed":8,"any":5}
+PASS X5  2 men + 3 women, 5 games (previously failed): equal games
+        {"mixed":3,"any":2}Created 5 games (3 mixed, 2 open). Mixed, men’s and women’s games come first; Open games o
+PASS U1  Player stats dialog (completed/ongoing/assigned, arrival, waiting, teammates, opponents)
+PASS U2  No uncaught page errors during all tests
+53/53 passed

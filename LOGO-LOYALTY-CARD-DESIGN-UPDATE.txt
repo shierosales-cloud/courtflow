@@ -1,0 +1,13 @@
+COURTFLOW UPDATE — LANDING LOGO AND SIMPLIFIED LOYALTY CARD DESIGN
+
+1. Fixed the Player View and Welcome landing-page logo references to use the dedicated square CourtFlow app mark at /courtflow-brand-icon.png.
+2. Added the square mark to the service-worker core cache and incremented the cache version so installed app users receive the corrected asset.
+3. Simplified the organizer loyalty designer to one full-card layout/artwork upload (PNG, JPG or WebP, max 5 MB).
+4. CourtFlow measures the uploaded image dimensions and automatically chooses the 10-stamp grid density: 5 columns for landscape, 3 for square-like artwork, and 2 for portrait artwork.
+5. Player name, live stamp progress, reward information, card number and secure QR remain dynamic overlays; the uploaded image supplies the organizer's static card artwork.
+6. Existing organizer branding settings and uploaded image assets are not deleted from the database; legacy settings remain backward compatible but the simplified designer no longer asks organizers to edit them separately.
+
+DEPLOYMENT
+- Deploy the included CourtFlow-app-final-v27 folder to the existing Netlify site.
+- No new SQL migration is required for this UI/artwork change. The existing loyalty migration and Storage bucket setup from the previous loyalty deployment are still prerequisites.
+- For best card results, upload artwork with clear spaces for the player name, 10 stamps, QR code and reward details.

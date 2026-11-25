@@ -1,0 +1,14 @@
+CourtFlow v27 navigation and match mode update
+
+Navigation labels:
+- Players Line Up -> Players
+- Player Directory -> Clubhouse (session navigation and home navigation)
+- Current Session, Leaderboard, Ratings retained with matching inline icons.
+
+Match Mode:
+- Smart Rotation maps to the existing balanced generation mode: waiting/queue priority, partner/opponent variety and skill-balanced team formation.
+- FIFO maps to strict first-in-first-out queue selection.
+- Skill Match maps to the existing skill-based selection mode, prioritizing players with close ratings.
+
+The former Win/Loss mode remains readable for existing saved sessions but is no longer offered as a visible Match Mode choice.
+No Supabase migration is required.

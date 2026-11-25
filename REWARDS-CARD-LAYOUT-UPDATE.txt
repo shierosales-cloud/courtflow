@@ -1,0 +1,7 @@
+COURTFLOW REWARDS CARD UPDATE
+
+- Updated visible app copy to use “Rewards” instead of “Loyalty” while preserving internal API names, database fields, storage paths, and existing player card URLs for compatibility.
+- Moved the club logo to the top-right of the card.
+- Expanded the ten attendance stamps into a full-width left-to-right row.
+- Centered the 11th mark reward and all card footer text beneath the stamp row.
+- Added responsive sizing for desktop and mobile layouts.

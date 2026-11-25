@@ -1,0 +1,11 @@
+CourtFlow v27 — Overall Leaderboard Position in Thank-You & Feedback
+
+- The personalized post-session WhatsApp thank-you message now includes each player's Overall leaderboard position, captured at session end before session result counters are reset.
+- Placement uses the same Overall leaderboard ranking and eligible-player count shown in the app at that moment. Top-three positions read, for example, "Top 3 of 32 players (3rd place)"; other positions show their ordinal rank and total. Ties are identified.
+- The feedback link carries the placement to the player feedback page, which displays it and stores leaderboard_rank, leaderboard_total, leaderboard_tied and leaderboard_placement with the feedback submission.
+- The organizer's post-session recap preview and Feedback dashboard also display the placement.
+- Updated thank-you and feedback confirmation copy from a green heart to a blue heart and added the salute emoji.
+- Netlify's static form blueprint was updated to declare the added hidden fields.
+- Service-worker cache version bumped to force installed devices to fetch the updated page.
+
+No database migration or new environment variables are required.

@@ -1,0 +1,68 @@
+COURTFLOW PLAYER VIEW + ANALYTICS FROM/TO FILTER
+================================================
+
+WHAT CHANGED
+------------
+1. The signed-out CourtFlow welcome screen now offers:
+   - Player View
+   - Organizer Login
+   - Create Organizer Account
+
+2. Player View accepts a player's private CourtFlow registration/edit link (or its token).
+   - The registration success page now provides a separate Player View link and a Copy My Player View Link button.
+   - Player View displays the player's profile summary and, when enrolled, their loyalty card, stamp progress and available rewards.
+   - Players can open My Profile from Player View.
+
+3. Save CourtFlow as a player:
+   - Players can select Remember my player view on this device and press Save Player Access.
+   - They can then select Install CourtFlow.
+   - On supported Android/desktop browsers, CourtFlow uses the browser's install prompt.
+   - On iPhone/iPad, open the page in Safari, tap Share, then Add to Home Screen.
+   - When the installed app opens on the same device, it automatically opens the remembered Player View.
+   - Remember Player View should only be enabled on a personal device, not a shared device.
+
+4. Analytics now has From and To date fields.
+   - Both dates are required to apply a custom range.
+   - The To date is inclusive.
+   - Attendance metrics, Most Attended Players, and feedback-based satisfaction use the same custom range.
+   - Weekly and Monthly presets remain available.
+   - Clear dates returns to the selected Weekly/Monthly preset.
+
+SUPABASE MIGRATION
+------------------
+The read-only player portal uses the RPC cf_get_player_portal.
+
+If you have NOT run the CourtFlow loyalty registration migration yet:
+   Run supabase-loyalty-registration.sql
+This file now includes the player portal function at the end.
+
+If you ALREADY ran the earlier loyalty registration migration:
+   Run supabase-player-portal.sql only
+This is an additive migration and does not replace existing tables or data.
+
+Run the applicable SQL in Supabase Dashboard > SQL Editor before deploying the updated site.
+
+DEPLOYMENT
+----------
+1. Extract the ZIP.
+2. Apply the applicable Supabase migration above.
+3. Deploy the CourtFlow-app-final-v27 folder to the existing Netlify site.
+4. Open the main CourtFlow URL in a private/incognito browser to confirm the signed-out welcome screen shows Player View and Organizer Login.
+5. Open a player registration success link and choose Open My Player View.
+6. In Player View, select Remember my player view on this device, press Save Player Access, then Install CourtFlow.
+7. Test Analytics > From / To using a known date range.
+
+SECURITY NOTES
+--------------
+- Player View uses the player's private profile access token. Treat the link as private.
+- Do not enable Remember Player View on a shared/public device.
+- The portal RPC returns only the player's display name, profile photo, playing level and their own loyalty information. It does not return their full name, WhatsApp number or birthday.
+- The player portal is read-only. Profile updates remain on the private My Profile page.
+
+VERIFICATION
+------------
+- Inline JavaScript syntax check passed.
+- Analytics inclusive date-range and invalid-range checks passed.
+- Attendance aggregation and new/returning classification tests passed for custom ranges.
+- ZIP integrity checked after packaging.
+- A live Supabase migration and end-to-end browser regression could not be run from this environment.

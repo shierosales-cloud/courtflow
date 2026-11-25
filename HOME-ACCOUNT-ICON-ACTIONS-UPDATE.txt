@@ -1,0 +1,10 @@
+CourtFlow v27 — Home Account Icon Actions Update
+
+Changes:
+- Replaced the Home page “Sync Now” text button with an accessible sync icon button.
+- Replaced the Home page “Sign Out” text button with an accessible sign-out icon button.
+- Kept the existing data-au actions and handlers unchanged, preserving sync and sign-out behavior.
+- Added descriptive aria-label and title attributes, keyboard focus styling, mobile sizing, and clear hover/pressed states.
+- Bumped the service-worker cache to courtflow-v67-home-account-icon-actions.
+
+No database schema, environment variable, feedback dashboard, or Netlify function changes are required.

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <title>CourtFlow form endpoint</title>
+  <style>[hidden] { display: none !important; }</style>
+</head>
+<body>
+  <!-- Static Netlify Forms blueprint. Keep names in sync with index.html. -->
+  <form name="cf-session-feedback"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        hidden>
+    <input type="hidden" name="form-name" value="cf-session-feedback">
+    <p hidden>
+      <label>Do not fill this out
+        <input name="bot-field" tabindex="-1" autocomplete="off">
+      </label>
+    </p>
+    <input name="player">
+    <input name="session">
+    <input name="session_id">
+    <input name="rating_before">
+    <input name="rating_after">
+    <input name="leaderboard_rank">
+    <input name="leaderboard_total">
+    <input name="leaderboard_tied">
+    <input name="leaderboard_placement">
+    <select name="overall"></select>
+    <select name="organization"></select>
+    <select name="rotation"></select>
+    <textarea name="comments"></textarea>
+  </form>
+</body>
+</html>

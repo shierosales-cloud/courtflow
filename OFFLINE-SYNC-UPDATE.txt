@@ -1,0 +1,18 @@
+COURTFLOW OFFLINE & SYNC HARDENING (v74)
+
+What this update does:
+- Keeps the current app state in localStorage for fast offline reopen.
+- Writes a per-organizer pending snapshot immediately when app state changes.
+- Mirrors the pending snapshot into IndexedDB for more durable local queue storage.
+- Retains a local recovery snapshot even after a successful sync.
+- Retries cloud synchronization when connectivity returns, when the app becomes visible, and on the existing retry interval.
+- Shows Offline / Pending Sync / Synced status in the signed-in user bar.
+- Detects when a newer cloud snapshot exists while this device has pending local changes. It protects the local copy instead of silently overwriting it.
+- On a detected conflict, the Sync control asks before replacing the cloud copy with this device's local snapshot; cancelling downloads a local recovery JSON file.
+- Sign-out keeps local app data when pending changes could not be confirmed as synced.
+
+Important limits:
+- This is single-organizer snapshot synchronization, not a multi-device operation log. If multiple devices actively edit the same organizer account, conflict detection prevents a known overwrite but cannot automatically merge individual match/player edits. Use one active editing device per organizer account, or resolve a conflict deliberately.
+- Offline use requires the app to have been opened online at least once on that device so the service worker can cache the app shell. Keep the user signed in and do not clear Safari website data.
+- Authentication refresh, live sharing, feedback submission, organizer dashboard, and cloud profile changes still require internet.
+- IndexedDB and localStorage are browser-local; they are not a substitute for an exported recovery backup. Use the Sync control's conflict cancellation to download a recovery JSON if a conflict is detected.

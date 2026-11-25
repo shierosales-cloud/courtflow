@@ -1,0 +1,10 @@
+CourtFlow v27 — Session Settings Icon Toolbar
+
+Changes:
+- Replaced the text Home and Share Live View actions in the session header with accessible icon buttons.
+- Added a Session Settings gear icon alongside Home and Live Session.
+- Moved the existing Current Session settings panel into a responsive, scrollable dialog opened from the gear icon.
+- Kept the End Session action as a clearly labeled button.
+- Added a live-sharing status dot and updated the service-worker cache version.
+
+No database or environment variable changes are required.

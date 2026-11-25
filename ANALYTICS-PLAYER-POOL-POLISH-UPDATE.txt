@@ -1,0 +1,32 @@
+COURTFLOW — ANALYTICS & PLAYER POOL POLISH UPDATE
+
+1. HOME > PLAYER POOL
+   - Improved table spacing, margins, borders, row separation, and vertical alignment.
+   - Centered both the Sessions Attended heading and its values in the middle of the column.
+   - Removed the inactive “Open a session to add” button from the Home Player Pool only.
+   - The Add to Session action remains available in the Current Session Player Pool.
+
+2. MEMBERSHIP TYPE COLOURS
+   - Founding Member: gold.
+   - Monthly Subscriber: blue.
+   - Pay Per Play: purple.
+   - Not tagged: neutral.
+   - The colours appear in both Home > Player Pool and Current Session > Player Pool.
+   - Existing membership selections and saved player data are preserved.
+
+3. ANALYTICS PERIOD FILTER
+   - Added Weekly and Monthly filters.
+   - Weekly covers Monday through Sunday in the device's local time.
+   - Monthly covers the current calendar month in the device's local time.
+   - Active, new, returning, average attendance, and most-attended player metrics use the selected period.
+   - New Players means first recorded attendance in the selected period; Returning Players means first recorded attendance before the period.
+
+4. PLAYER SATISFACTION
+   - Uses only actual feedback submissions received during the selected period.
+   - Overall satisfaction is averaged from submitted Overall ratings; Organization and Rotation averages use their respective feedback fields.
+   - Feedback rows without a valid Overall rating do not count as satisfaction scores.
+
+5. COMPATIBILITY
+   - No Supabase schema changes are required.
+   - Existing features, files, player profiles, membership tags, sessions, and feedback submissions are retained.
+   - Service worker cache version was incremented so browsers can load the updated app after deployment.

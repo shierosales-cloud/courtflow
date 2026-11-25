@@ -1,0 +1,8 @@
+CourtFlow v27 — Player Photos in Ratings and Share Cards
+
+- Ratings tables now display each player profile photo or initials fallback.
+- The rating detail heading now includes the player photo.
+- The remote/live Ratings view also renders player photos.
+- Leaderboard and Ratings share cards embed available player photos as circular portraits.
+- Profiles without a photo use a clean initials avatar.
+- Photos are embedded into generated SVG/PNG share images; no database migration or environment-variable changes are required.

@@ -1,0 +1,19 @@
+CourtFlow v27 — Session Settings Mobile Rebuild
+
+- Rebuilt Session Settings with an explicit, fixed-height dialog shell and a dedicated vertical scroll region.
+- iPhone / narrow screens use a full-screen single-column settings layout.
+- Courts stepper has three fixed-width controls with consistent gaps.
+- Format and Match Mode choices wrap into an in-card two-column layout, with a single-column fallback on very narrow screens.
+- Match Time has an independent full-width bounded input.
+- Voice selector and status occupy their own full-width card.
+- Removed the legacy s4/s6 sizing classes from generated settings rows to avoid conflicting grid/flex rules.
+- Service worker cache version bumped to v71 so installed devices fetch the revised UI.
+
+No database migration or new environment variables are required.
+
+Final correction after mobile-device feedback:
+- Switched the settings container to ordinary block flow with a single vertical scroll region.
+- Removed grid/flex auto-placement from the cards container entirely; every setting is now a full-width stacked card.
+- Kept grid only inside the small Match Mode and Format option groups, bounded to the card width.
+- Forced courts stepper, Match Time input and Voice selector to independent block controls.
+- Updated service worker cache to v72.

@@ -1,0 +1,9 @@
+CourtFlow v27 — Leaderboard share podium layout update
+
+- Rebuilt the top-three section of the exported leaderboard share image to mirror the live leaderboard podium.
+- Second place appears on the left, first place is centred and tallest, and third place appears on the right.
+- Card bottoms align to a common baseline so the elevation communicates the standings clearly.
+- Names, profile portraits (or initials fallback), rank, status badge, and games/wins/losses are centred within each card, with vector rank medals that render consistently in exported PNGs.
+- Preserves the remaining leaderboard table beneath the podium.
+- Bumped the service-worker cache name so devices fetch the refreshed app assets.
+- No database migration or environment-variable changes are required.

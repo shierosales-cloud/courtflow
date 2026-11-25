@@ -1,0 +1,23 @@
+CourtFlow v27 — iOS Session Settings Overflow Fix
+
+This update replaces the previous overlapping/overflowing settings-dialog rules with an explicit responsive layout.
+
+Changes:
+- Session Settings uses a bounded dialog width and dynamic viewport height with iOS safe-area allowance.
+- Dialog header remains fixed while the settings body scrolls vertically.
+- Horizontal scrolling is disabled inside the settings body; content is constrained to the dialog width.
+- Each setting is a separate card with a stacked label/description and control.
+- iPhone layout uses a single column; wider layouts use two columns.
+- Match Mode options use a 2x2 grid on phones and four columns on wider screens, with wrapping labels.
+- Voice selector and status text use the full card width and wrap rather than pushing the dialog sideways.
+- Match Time input has a bounded width and cannot overlap the Voice card.
+- Courts count uses a fixed-width minus / value / plus stepper with centered alignment.
+- Current match mode description remains inside the Settings dialog.
+- Service worker cache version increased to force clients to fetch the latest interface.
+
+Deployment:
+Extract CourtFlow-app-final-v27 and deploy from that folder to the existing Netlify site using:
+  netlify.cmd link
+  netlify.cmd deploy --prod
+
+No environment-variable changes or database migration are required.

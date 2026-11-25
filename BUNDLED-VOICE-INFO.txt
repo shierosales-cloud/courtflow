@@ -1,0 +1,12 @@
+COURTFLOW V27 — BUNDLED OFFLINE VOICE
+
+This package includes the Piper browser engine, ONNX Runtime Web, phonemizer WASM/data, and the en_US-joe-medium English model. No Google Cloud, Supabase TTS function, GitHub, or CDN is used for voice assets.
+
+FIRST USE: While online, open CourtFlow and tap Announce once. The iPad downloads the bundled model (about 60 MB) from YOUR Netlify site and initializes it. The service worker caches same-origin GET assets when storage permits. Later use may work offline, subject to iPadOS cache/storage retention.
+
+DEPLOY: Extract the ZIP and upload the contents of the CourtFlow-app-final-v27 folder to Netlify (or drag the ZIP if your Netlify workflow accepts ZIP deploys). Keep the vendor folder and ONNX model at the site root beside index.html.
+
+The app uses the browser's normal audio output route. Select the JBL speaker in iPad Control Center; a web app cannot force Bluetooth routing.
+
+FETCH ERROR FIX (v51)
+The service worker always returns a valid Response for failed requests. Failed cache writes (including iPad storage/quota errors for the large model) do not break successful downloads, and large-file cache writes are started asynchronously so they do not hold the download response open. Cross-origin requests are left to the browser.

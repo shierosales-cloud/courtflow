@@ -1,0 +1,11 @@
+CourtFlow v27 — Player Pool and Session Settings Layout Update
+
+Changes:
+- Applied consistent outer borders, rounded corners, padding, and surface backgrounds to the Player Pool tab.
+- Styled Player Pool profile actions and profile rows as responsive cards; included the home Player Profiles surface.
+- Rebuilt the session Settings dialog into a stacked, responsive card layout with controls below each label and description.
+- Used two columns on larger screens and a single column on narrow phones; Match Mode spans the full width where space permits.
+- Moved the active Match Mode explanation into the Match Mode card inside Settings and removed it from the Current Session page.
+- Bumped the service-worker cache to courtflow-v66-player-pool-settings-layout.
+
+No database schema, environment variable, feedback dashboard, or Netlify function changes are required.

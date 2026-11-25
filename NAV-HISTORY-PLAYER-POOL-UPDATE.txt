@@ -1,0 +1,14 @@
+CourtFlow v27 – Navigation and History update
+
+Changes in this build:
+- Moved Recent Matches out of the Leaderboard section into its own History tab.
+- Added a clock/history icon to the History tab.
+- Renamed Clubhouse to Player Pool in session navigation and home navigation.
+- Changed the session Player Pool navigation icon to a group-of-players icon.
+- Placed Player Pool after History in the session navigation.
+- Kept Player Pool as the last home tab and removed its home-tab icon.
+- Removed decorative icons from the top configuration/settings labels.
+- Updated the shared live-session tab label from Recent Matches to History.
+
+No Supabase schema or SQL changes are required.
+Deploy by extracting this ZIP and uploading the contents of CourtFlow-app-final-v27 to Netlify.

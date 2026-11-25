@@ -1,0 +1,13 @@
+COURTFLOW LOYALTY CARD CUSTOMIZATION UPDATE
+
+Changes:
+- Reworked loyalty card composition so the club logo is large and positioned on the right side.
+- Improved spacing and responsive sizing for player name, stamp grid, 11th reward mark, reward text, and card number.
+- Added editable Club Name and Loyalty Program Name fields.
+- Added independent color controls for both background gradient colors, main and secondary fonts, earned and empty stamps, and accent details.
+- Changing a color preset now loads that preset's starting colors; each color can then be customized independently.
+- Removed the duplicate logo from the welcome/landing card and Player View entry card. The shared header branding remains.
+- Preserved existing loyalty enrollment, player portal, QR display, logo upload, and save/publish workflow.
+
+Validation:
+- Inline application JavaScript passed `node --check`.

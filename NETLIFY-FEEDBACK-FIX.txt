@@ -1,0 +1,23 @@
+SUPERSEDED FOR THE NEW FEEDBACK DASHBOARD BUILD. See FEEDBACK-DASHBOARD-SETUP.txt for the current deployment instructions.
+
+COURTFLOW v27 — NETLIFY FEEDBACK SUBMISSION FIX
+
+What changed
+- Added __forms.html as a dedicated static Netlify Forms blueprint for cf-session-feedback.
+- The blueprint includes every submitted field: form-name, bot-field, player, session, session_id, overall, organization, rotation, comments.
+- Updated the feedback AJAX request to POST URL-encoded data to /__forms.html.
+- Improved the failure message so users are directed to the Netlify Forms setup if the problem persists.
+- Bumped the service-worker cache name so installed PWAs fetch the corrected index.html.
+
+Deploy
+1. In Netlify, open the CourtFlow site and go to Forms.
+2. Confirm automatic form detection is ENABLED. If you enable/re-enable it, it only applies to the next deploy.
+3. Deploy the CONTENTS of this folder (the folder containing index.html) to the same Netlify site. Ensure __forms.html is at the site root beside index.html, not nested in another folder.
+4. After deploy, open Netlify > Forms and confirm cf-session-feedback appears under Active forms.
+5. Submit one realistic test response from the public feedback link.
+6. Check Forms > cf-session-feedback > Verified submissions. If it is missing, also check Spam submissions.
+
+Important
+- Do not rename the form or any field unless you update both index.html and __forms.html.
+- Do not use a Supabase key or Supabase RPC for this form; this form is intentionally stored by Netlify Forms.
+- The service worker ignores POST requests, so the feedback POST reaches Netlify directly. The cache version bump refreshes the app code on installed devices.

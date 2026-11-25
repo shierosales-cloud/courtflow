@@ -1,0 +1,21 @@
+CourtFlow v27 — Leaderboard Podium & Trophy Update
+
+1) In-app Leaderboard
+- Replaced the first-place crown with a trophy in the top-three podium card.
+- Second- and third-place medal markers remain unchanged.
+
+2) Leaderboard Share Image
+- Rebuilt the exported podium to mirror the app layout: runner-up on the left, winner in the wider raised centre card, third place on the right.
+- The cards share one bottom baseline; the second-place card is slightly taller than third place.
+- Gold, silver and bronze card backgrounds, borders and shadows match the app podium.
+- Profile portrait sizes follow the live card proportions (88px winner, 58px second, 54px third, scaled for export).
+- Rank, photo, name, status badge and game summary are centred with consistent spacing.
+- Added a clear divider and spacing between the status badge (e.g. Top 2 / Unbeaten) and games summary.
+- The first-place share-card marker is a self-contained vector trophy; silver/bronze medals are also vectors so the share image renders consistently across devices.
+
+3) Cache
+- Service-worker cache key bumped to v62 so installed clients fetch the revised leaderboard UI and share renderer.
+
+Deployment
+- Deploy the contents of CourtFlow-app-final-v27 to the existing Netlify site.
+- No new environment variables or database migration are required.

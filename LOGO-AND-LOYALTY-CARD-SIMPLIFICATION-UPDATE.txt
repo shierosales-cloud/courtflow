@@ -1,0 +1,12 @@
+COURTFLOW LOGO AND LOYALTY CARD SIMPLIFICATION UPDATE
+
+1. Fixed both welcome/landing and Player View logos by reusing the already-working embedded CourtFlow brand image. The two screens no longer request the missing /courtflow-brand-icon.png path.
+2. Replaced full-card artwork upload with organizer logo upload only (PNG/JPG/WebP, 2 MB maximum).
+3. Added six simple color presets: CourtFlow Navy & Lime, Emerald & Gold, Ocean Blue, Royal Purple, Black & Gold, and Burgundy & Rose.
+4. Fixed attendance stamp layout at 5 columns by 2 rows (10 attendance stamps).
+5. Replaced the emoji stamp with a custom SVG pickleball ball featuring visible perforation holes.
+6. Added the 11th mark as a dedicated FREE SESSION reward tile. It lights up when a reward is available. The 11th mark is a reward indicator, not an extra attendance stamp.
+7. Existing loyalty data is preserved. No new Supabase migration is required; the organizer logo URL and color preset are saved in the existing loyalty program JSON configuration.
+8. Service-worker cache version bumped to force the updated interface to refresh.
+
+Deploy the CourtFlow-app-final-v27 folder using the existing Netlify configuration.

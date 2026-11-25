@@ -1,0 +1,21 @@
+CourtFlow v27 — Podium Icons & Rating Change Colors
+
+1) Live Leaderboard
+- Removed numeric rank labels from the three podium cards. The gold trophy and silver/bronze medals stand alone.
+- Accessible place labels remain available to screen readers and assistive technology.
+
+2) Leaderboard Share Image
+- Removed numeric rank text beside the trophy and medals in the three podium cards.
+- Podium geometry, player portraits, names, status and match statistics are preserved.
+
+3) Ratings Share Image
+- Rating change values are green when the rating increases.
+- Rating change values are red when the rating decreases.
+- Zero/no-change values remain muted neutral gray.
+
+4) Cache
+- Service-worker cache key bumped to v63 so installed clients fetch the updated view and share renderer.
+
+Deployment
+- Deploy this project to the existing CourtFlow Netlify site.
+- No new environment variables or database migration are required.
