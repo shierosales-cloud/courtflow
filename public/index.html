@@ -1983,6 +1983,26 @@ html,body{max-width:100%;overflow-x:clip}
 .cf-crop-ring{position:absolute;inset:0;pointer-events:none;border-radius:50%;box-shadow:0 0 0 999px rgba(6,20,30,.62),inset 0 0 0 3px rgba(255,255,255,.9)}
 .cf-crop-zoom{width:100%;margin:0 0 14px}
 .cf-crop-actions{display:flex;gap:10px;justify-content:center}
+</style><style id="cf-v37">
+/* Rewards card in the Club Rewards tab: compact */
+#loyaltyhub .lx-wrap{max-width:330px;margin:6px auto 14px}
+@media(min-width:900px){#loyaltyhub .lx-wrap{max-width:300px}}
+#loyaltyhub .loy-preview-row{gap:10px}
+/* Mobile: sync + sign out sit on the right of "Signed in as" */
+@media(max-width:480px){#userbar{flex-direction:row!important;flex-wrap:nowrap;align-items:center!important;justify-content:space-between;gap:8px}
+#userbar .userbar-identity{flex:1 1 auto;min-width:0}
+#userbar .userbar-actions{flex:0 0 auto!important;width:auto!important;max-width:none!important;margin-left:auto;align-self:center!important;flex-wrap:nowrap!important;justify-content:flex-end}
+#userbar .userbar-icon-btn{width:38px;height:38px;min-width:38px;min-height:38px}}
+.board-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+</style><style id="cf-v38">
+/* Rewards card: beside the form on desktop (no long scroll), smaller on phones */
+@media(min-width:900px){
+#loyaltyhub section:has(>#loyalty-card-preview){display:grid;grid-template-columns:300px minmax(0,1fr);column-gap:28px;align-items:start}
+#loyaltyhub section:has(>#loyalty-card-preview)>h2,#loyaltyhub section:has(>#loyalty-card-preview)>p{grid-column:1/-1}
+#loyaltyhub section>#loyalty-card-preview{grid-column:1;grid-row:3;position:sticky;top:12px;margin:0}
+#loyaltyhub section:has(>#loyalty-card-preview)>form{grid-column:2;grid-row:3;min-width:0}
+}
+@media(max-width:560px){#loyaltyhub .lx-wrap{max-width:290px}}
 </style></head>
 <body>
 <div class="wrap">
@@ -2036,7 +2056,7 @@ S.sched=S.sched||[];S.p=S.p||{};S.mode=S.mode||'line';S.ends=S.ends||[];S.ct=S.c
 if(!S.v3){Object.keys(S.p).forEach(function(n){var s=S.p[n].s;S.p[n].s=s<3?1:s===3?2:3});S.sched.forEach(function(m){m.forEach(function(n){if(S.queue.concat(flat(S.games.filter(Boolean))).indexOf(n)<0)S.queue.push(n)})});S.v3=1}
 if(!S.v22){Object.keys(S.p).forEach(function(n){S.p[n].o=0});S.v22=1}S.cm=S.cm||[];if(S.prot==null)S.prot=1;S.qseq=S.qseq||0;S.bseq=S.bseq||0;
 var CLOCK=null,CMSG='';function nowMs(){return CLOCK==null?Date.now():CLOCK}
-var HINT={line:'Players who activate first are selected first. After playing they return to the back of the queue.',skill:'Matches players with the same or closest playing levels.',balanced:'Prioritizes waiting players and balances team skills while rotating partners and opponents.',record:'Groups players with similar win rates.'};
+var HINT={line:'Players who activate first are selected first. After playing they return to the back of the queue.',skill:'Matches players with the same or closest playing levels.',balanced:'Longest active waiting time plays first, so late arrivals never jump the line. Players who get 2 or more matches ahead sit out so everyone ends with a fair match count. Partners and opponents rotate, then team skills are balanced.',record:'Groups players with similar win rates.'};
 function $(s){return document.querySelector(s)}
 function esc(s){return s.replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function msg(t){$('#msg').textContent=t||''}
@@ -2076,7 +2096,19 @@ function waitLast(n,t){var p=S.p[n];if(p&&p.wacc!==undefined)return waitActive(n
 function waitAvail(n,t){var p=S.p[n];if(!p||!(p.act||p.at))return 0;return Math.max(0,(t==null?nowMs():t)-(p.act||p.at))}
 /* Priority: (planning only) fewest projected matches, then fewest completed, longest since last completed (or since activation),
    longest since becoming available, earlier arrival. Pairing diversity is applied by callers AFTER this. */
-function cmpP(a,b,C,t){var d;
+/* Smart Flow (v36): longest ACTIVE waiting time decides the order, so late arrivals never jump the line.
+   Fairness guard: a player already SF_GAP or more matches ahead of the lowest count among waiting players sits behind everyone else,
+   so late arrivals still catch up to an equal number of matches. Lower SF_GAP = faster catch-up. */
+var SF_GAP=2;
+function sfMin(C){var m=1e9;present().forEach(function(n){var p=S.p[n];if(!p||p.pa)return;var v=C?sc0(C,n).t:plays(n);if(v<m)m=v});return m===1e9?0:m}
+function cmpSF(a,b,C,t){var d,m=sfMin(C),va=C?sc0(C,a).t:plays(a),vb=C?sc0(C,b).t:plays(b);
+  d=(va-m>=SF_GAP?1:0)-(vb-m>=SF_GAP?1:0);if(d)return d;
+  if(C){d=(sc0(C,a).u+sc0(C,a).o)-(sc0(C,b).u+sc0(C,b).o);if(d)return d}
+  d=mb(waitLast(b,t))-mb(waitLast(a,t));if(d)return d;
+  d=va-vb;if(d)return d;
+  d=mb(waitAvail(b,t))-mb(waitAvail(a,t));if(d)return d;
+  return mb(S.p[a].at||0)-mb(S.p[b].at||0)}
+function cmpP(a,b,C,t){var d;if(S.mode==='balanced')return cmpSF(a,b,C,t);
   if(C){d=sc0(C,a).t-sc0(C,b).t;if(d)return d}
   d=plays(a)-plays(b);if(d)return d;
   d=mb(waitLast(b,t))-mb(waitLast(a,t));if(d)return d;
@@ -2261,7 +2293,7 @@ function cfCropFile(file){return new Promise(function(res){var rd=new FileReader
 document.addEventListener('change',function(e){var i=e.target;if(!i||i.tagName!=='INPUT'||i.type!=='file'||i._cf||typeof DataTransfer==='undefined')return;if(!(i.id==='pr-photo'||i.id==='pho-photo'||i.hasAttribute('data-photo-player')))return;var f=i.files&&i.files[0];if(!f||!/^image\//.test(f.type))return;e.stopImmediatePropagation();
  cfCropFile(f).then(function(nf){if(!nf){i.value='';return}try{var dt=new DataTransfer();dt.items.add(nf);i.files=dt.files}catch(x){}i._cf=1;i.dispatchEvent(new Event('change',{bubbles:true}));i._cf=0})},true);
 function cfNm(x){return String(x||'').replace(/[.]/g,'').trim()}
-function cfJ(x){return x.map(cfNm).join('. ')}
+function cfJ(x){return x.map(cfNm).join('. with. ')}
 function crtTxt(n,pl){var h=pl.length/2;return 'Court '+n+'. '+cfJ(pl.slice(0,h))+'. Versus. '+cfJ(pl.slice(h))+'. Please proceed to Court '+n+'.'}
 function upTxt(pl){var h=pl.length/2;return 'Up Next. '+cfJ(pl.slice(0,h))+'. Versus. '+cfJ(pl.slice(h))+'. Players, be ready.'}
 function upNextHTML(){var pv=lpreview(),rows=[];['b','o'].forEach(function(g){var i=gidx(g)[0];if(i===undefined)return;var p=pv[i];if(!Array.isArray(p))return;var h=p.length/2;rows.push('<div class="upr"><span class="unl">'+(g==='b'?'Beginner':'Open Skill')+'</span><div class="nb-m upnext-match"><span class="nt a"><em>TEAM A</em>'+p.slice(0,h).map(esc).join(' · ')+'</span><i>VS</i><span class="nt b"><em>TEAM B</em>'+p.slice(h).map(esc).join(' · ')+'</span></div>'+vbtn('l',i,'','Announce the up next match')+'</div>')});
@@ -2318,8 +2350,8 @@ function piperInit(){
 }
 function speakDevice(t,rate,id){
   if(!window.speechSynthesis||typeof SpeechSynthesisUtterance==='undefined'){annEnd(id);msg('Voice announcements are not supported on this device or browser.');return}
-  try{window.speechSynthesis.cancel();annStart();var segs=(String(t).match(/[^.!?]+[.!?]*/g)||[String(t)]).map(function(s){return s.trim()}).filter(Boolean),k=0,r=(rate||.95)*.85,lang=document.documentElement.lang||'en-US';
-    var step=function(){if(id!==ANN)return;if(k>=segs.length){setTimeout(function(){annEnd(id)},400);return}var s=segs[k++],u=new SpeechSynthesisUtterance(s);u.rate=r;u.pitch=1;u.volume=1;u.lang=lang;u.onend=function(){setTimeout(step,/^versus/i.test(s)?600:800)};u.onerror=function(){setTimeout(function(){annEnd(id)},300)};try{window.speechSynthesis.speak(u)}catch(e){annEnd(id)}};
+  try{window.speechSynthesis.cancel();annStart();var segs=(String(t).match(/[^.!?]+[.!?]*/g)||[String(t)]).map(function(s){return s.trim()}).filter(Boolean),k=0,r=(rate||.95)*.9,lang=document.documentElement.lang||'en-US';
+    var step=function(){if(id!==ANN)return;if(k>=segs.length){setTimeout(function(){annEnd(id)},400);return}var s=segs[k++],u=new SpeechSynthesisUtterance(s);u.rate=r;u.pitch=1;u.volume=1;u.lang=lang;u.onend=function(){setTimeout(step,/^(versus|with)\b/i.test(s)?500:800)};u.onerror=function(){setTimeout(function(){annEnd(id)},300)};try{window.speechSynthesis.speak(u)}catch(e){annEnd(id)}};
     setTimeout(step,250);setTimeout(function(){annEnd(id)},Math.max(15000,String(t).length*300+segs.length*1000+5000))}catch(e){annEnd(id);msg('The announcement could not be played.')}}
 function speak(t,rate){
   var id=++ANN;try{window.speechSynthesis&&window.speechSynthesis.cancel()}catch(e){}
@@ -2329,7 +2361,7 @@ function speak(t,rate){
      replace its source with the generated WAV once local synthesis finishes. */
   annStart();var au=new Audio(),started=false;VAUD=au;au.setAttribute('playsinline','');au.setAttribute('x-webkit-airplay','allow');
   var sil=silentUrl();if(sil){au.src=sil;au.loop=true;au.volume=.01;var p0=au.play();if(p0&&p0.catch)p0.catch(function(){})}
-  piperInit().then(function(engine){if(id!==ANN)return;vstat('Preparing announcement…');return engine.speak(t,{lengthScale:Math.max(.9,Math.min(1.6,1/((rate||.95)*.85))),sentenceSilence:.9}).then(function(pcm){if(id!==ANN)return;var blob=window.Piper.toWav(pcm,engine.sampleRate),url=URL.createObjectURL(blob);try{au.pause()}catch(e){}au.loop=false;au.volume=1;au.onplaying=function(){started=true;vstat('Natural voice playing.')};au.onended=function(){setTimeout(function(){annEnd(id);try{URL.revokeObjectURL(url)}catch(e){}},250)};au.onerror=function(){annEnd(id);vstat('Audio playback failed. Check the iPad audio output.');};au.src=url;var pr=au.play();if(pr&&pr.catch)pr.catch(function(){annEnd(id);vstat('iPad blocked audio playback. Tap Announce again.');});setTimeout(function(){if(!started&&id===ANN){annEnd(id);vstat('Audio did not start. Tap Announce to retry.')}},5000)})}).catch(function(e){if(id!==ANN)return;try{au.pause()}catch(x){}annEnd(id);vstat((e&&e.message)||'Offline voice could not start. Check your connection and reload CourtFlow, then retry.');msg('Natural voice unavailable: '+((e&&e.message)||'please retry.'))});
+  piperInit().then(function(engine){if(id!==ANN)return;vstat('Preparing announcement…');return engine.speak(t,{lengthScale:Math.max(.9,Math.min(1.6,1/((rate||.95)*.9))),sentenceSilence:.9}).then(function(pcm){if(id!==ANN)return;var blob=window.Piper.toWav(pcm,engine.sampleRate),url=URL.createObjectURL(blob);try{au.pause()}catch(e){}au.loop=false;au.volume=1;au.onplaying=function(){started=true;vstat('Natural voice playing.')};au.onended=function(){setTimeout(function(){annEnd(id);try{URL.revokeObjectURL(url)}catch(e){}},250)};au.onerror=function(){annEnd(id);vstat('Audio playback failed. Check the iPad audio output.');};au.src=url;var pr=au.play();if(pr&&pr.catch)pr.catch(function(){annEnd(id);vstat('iPad blocked audio playback. Tap Announce again.');});setTimeout(function(){if(!started&&id===ANN){annEnd(id);vstat('Audio did not start. Tap Announce to retry.')}},5000)})}).catch(function(e){if(id!==ANN)return;try{au.pause()}catch(x){}annEnd(id);vstat((e&&e.message)||'Offline voice could not start. Check your connection and reload CourtFlow, then retry.');msg('Natural voice unavailable: '+((e&&e.message)||'please retry.'))});
   setTimeout(function(){if(id===ANN)annEnd(id)},Math.max(30000,t.length*500+15000))}
 function previews(c){var o={};['b','o'].forEach(function(g){var d=nextFor(g,c);if(d)o[g]=d});return o}
 function preview(c){var o=previews(c),k=Object.keys(o);return k.length===1?o[k[0]].pl:null}
@@ -3138,7 +3170,7 @@ function scale(){var c=[0,0,0,0,0,0];allNames().forEach(function(n){c[levelOf(S.
   $('#scale').innerHTML='<h3>Rating Chart</h3><p class="lbn">Six levels from Newbie (2.0) to Expert (5.0). Each player’s current rating decides their level, and the app uses it to pick players and balance teams.</p>'+BANDS.map(function(b,i){return '<div class="bnd b'+i+'"><div class="br"><b>'+b[0]+'</b><span>'+b[1]+'</span><small>New players start at '+BASE[i+1].toFixed(2)+'</small></div><div class="bd2"><p>'+b[2]+'</p></div><em>'+c[i]+(c[i]===1?' player':' players')+'</em></div>'}).join('')+''}
 function playerAvatar(name,photo,extra){if(photo)return '<img class="portrait '+(extra||'')+'" src="'+photo+'" alt="'+esc(name)+'">';var raw=String(name||'Player').trim(),initials=(raw.slice(0,2)||'P').toLocaleUpperCase();return '<span class="portrait initial-avatar '+(extra||'')+'" role="img" aria-label="'+esc(name)+'">'+esc(initials)+'</span>'}
 function shareIconSVG(){return '<svg class="share-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.2M8.7 13.3l6.6 4.2"/></svg>'}
-function shareControl(action){return '<button class="shot-btn" data-a="'+action+'">'+shareIconSVG()+'<span>Share</span></button>'}
+function shareControl(action,label){return '<button class="shot-btn" data-a="'+action+'">'+shareIconSVG()+'<span>'+(label||'Share')+'</span></button>'}
 var SHOT_BLOB=null,SHOT_URL='',SHOT_FILENAME='courtflow-share.png',SHOT_TITLE='CourtFlow';
 function ensureShotDialog(){
   var d=document.getElementById('shotdlg');if(d)return d;
@@ -3179,7 +3211,7 @@ function sharePhotoSource(img){
   try{if(img.complete&&img.naturalWidth>0){var c=document.createElement('canvas'),w=img.naturalWidth,h=img.naturalHeight,sc=Math.min(1,320/Math.max(w,h));c.width=Math.max(1,Math.round(w*sc));c.height=Math.max(1,Math.round(h*sc));c.getContext('2d').drawImage(img,0,0,c.width,c.height);return c.toDataURL('image/jpeg',.82)}}catch(e){}
   return '';
 }
-function buildShareCardSVG(el,title,date,sessionName){
+function buildShareCardSVG(el,title,date,sessionName,opt){
   var W=1080,pad=64,inner=W-pad*2,y=0,parts=[],cards=[].slice.call(el.querySelectorAll('.podium-card'));
   var table=el.querySelector('table'),trs=table?[].slice.call(table.querySelectorAll('tbody tr')):[],headers=table?[].slice.call(table.querySelectorAll('thead th')).map(shareCellText):[],rows=trs.map(function(tr){return [].slice.call(tr.querySelectorAll('td')).map(shareCellText)});
   var playerCells=trs.map(function(tr){return tr.querySelector('td.rplayer')||tr.querySelectorAll('td')[1]||null});
@@ -3217,6 +3249,26 @@ function buildShareCardSVG(el,title,date,sessionName){
   txt(pad,180,titleLine,40,'#102D3B',800);
   txt(pad,216,subLine+'  ·  '+dateLine,18,'#607783',600);
   y=254;
+  if(opt&&opt.top10){
+    var lst=[],roleRank={first:1,second:2,third:3};
+    cards.forEach(function(card){var rk=0;['first','second','third'].forEach(function(r){if(card.classList.contains(r))rk=roleRank[r]});if(!rk)return;lst.push({rk:rk,label:String(rk),name:shareCellText(card.querySelector('.pname'))||'Player',sub:shareCellText(card.querySelector('.pbadge')),stat:shareCellText(card.querySelector('.pmetrics')).replace(/\s*Games\s*/i,'G ').replace(/\s*Won\s*/i,'W ').replace(/\s*Lost/i,'L'),photo:sharePhotoSource(card.querySelector('img.portrait'))})});
+    var rc=headers.findIndex(function(x){return /^(#|rank)$/i.test(x)});if(rc<0)rc=0;
+    paired.forEach(function(x){var lab=String(x.row[rc]||''),n=parseInt(lab.replace(/\D/g,''),10)||99;lst.push({rk:n,label:lab,name:x.name||x.row[1]||'Player',sub:'',stat:x.row.map(function(v,i){return i===rc||i===1?null:String(v||'').trim()+(/^(games|won|lost)$/i.test(headers[i]||'')?String(headers[i]).charAt(0).toUpperCase():'')}).filter(Boolean).join(' · '),photo:x.photo})});
+    lst.sort(function(a,b){return a.rk-b.rk});lst=lst.slice(0,10);
+    var rh=78,medalFill={1:'#F4C542',2:'#CBD4DA',3:'#D69A5D'};
+    lst.forEach(function(it,i){var top=y+i*rh,cy=top+rh/2,tint=it.rk===1?'#FBF3D6':it.rk===2?'#EEF2F5':it.rk===3?'#F7EBDD':(i%2?'#F2F6F4':'#FFFFFF');
+      rect(pad,top+4,inner,rh-8,tint,'#E1EAE6',16);
+      parts.push('<circle cx="'+(pad+44)+'" cy="'+cy+'" r="22" fill="'+(medalFill[it.rk]||'#E3ECEF')+'" stroke="'+(it.rk<=3?'#9A7A22':'#BCCBD0')+'" stroke-width="2"/>');
+      txt(pad+44,cy+8,shareShort(it.label,4),it.label.length>2?17:22,'#102D3B',900,'middle');
+      avatar(pad+112,cy,25,it.photo,it.name);
+      txt(pad+156,cy+(it.sub?-2:8),shareShort(it.name,22),27,'#102D3B',900);
+      if(it.sub)txt(pad+156,cy+22,shareShort(it.sub,24),15,'#516970',800);
+      txt(W-pad-20,cy+7,shareShort(it.stat,30),19,'#33545E',800,'end')});
+    y+=lst.length*rh+20;if(!lst.length){txt(pad,y+30,'No ranked players yet',22,'#607783',600);y+=80}
+    y=Math.max(y+50,470);var height2=y+54;
+    parts[0]='<rect x="0" y="0" width="'+W+'" height="'+height2+'" fill="#F1F5F3"/>';
+    parts[1]='<rect x="28" y="28" width="'+(W-56)+'" height="'+(height2-56)+'" rx="28" fill="#FFFFFF" stroke="#D8E3DE" stroke-width="2"/>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'+W+'" height="'+height2+'" viewBox="0 0 '+W+' '+height2+'">'+parts.join('')+'</svg>'}
   if(cards.length){
     // Mirror the app's live podium geometry: equal-width side cards, a subtly wider
     // centre winner card, and one shared baseline. 2nd sits just above 3rd.
@@ -3291,7 +3343,7 @@ function shareSVGToPNG(svg){
     img.onerror=function(){URL.revokeObjectURL(url);reject(new Error('The browser could not render the share card.'))};img.src=url;
   });
 }
-function exportPanelShot(id,title){
+function exportPanelShot(id,title,opt){
   var el=document.getElementById(id);if(!el){msg('Open the '+title+' tab first, then try Share again.');return}
   var date=S.sess&&S.sess.start?new Date(S.sess.start).toLocaleDateString():new Date().toLocaleDateString(),name=(S.sess&&S.sess.name)||'Pickleball Session';
   SHOT_FILENAME=(title.replace(/[^a-z0-9]+/gi,'-').toLowerCase()||'courtflow-share')+'-'+date.replace(/[^0-9]+/g,'-')+'.png';SHOT_TITLE='CourtFlow · '+title;
@@ -3299,7 +3351,7 @@ function exportPanelShot(id,title){
   d.querySelector('#shotdlg-title').textContent='Preparing your '+title.toLowerCase()+' share card';status.textContent='Preparing your image…';img.removeAttribute('src');img.style.display='none';if(wait){wait.hidden=false;wait.textContent='Building your CourtFlow share card…'}
   if(SHOT_URL){URL.revokeObjectURL(SHOT_URL);SHOT_URL=''}SHOT_BLOB=null;if(!d.open)d.showModal();
   try{
-    var svg=buildShareCardSVG(el,title,date,name);
+    var svg=buildShareCardSVG(el,title,date,name,opt);
     shareSVGToPNG(svg).then(function(blob){SHOT_BLOB=blob;SHOT_URL=URL.createObjectURL(blob);img.src=SHOT_URL;img.style.display='block';if(wait)wait.hidden=true;d.querySelector('#shotdlg-title').textContent='Your image is ready';status.textContent='Your image is ready. Tap Share to send it, or Save image to keep it on your device.';})
     .catch(function(err){console.error('[CourtFlow share image]',err);if(wait){wait.hidden=false;wait.textContent='Image could not be generated. Please close this window and try again.'}status.textContent='Could not prepare the image: '+(err&&err.message?err.message:'Please try again.');});
   }catch(err){console.error('[CourtFlow share card]',err);status.textContent='Could not prepare the image: '+(err&&err.message?err.message:'Please try again.');if(wait)wait.textContent='Please close this window and try again.'}
@@ -3311,7 +3363,7 @@ function board(){
   var podium=r.slice(0,3),rest=r.slice(3),podiumOrder=podium.length===3?[podium[1],podium[0],podium[2]]:podium;
   out+='<div class="podium">'+podiumOrder.map(function(p){var ix=r.indexOf(p),k=rk[ix],cl=k.r===1?'first':k.r===2?'second':'third',symbol=k.r===1?'🏆':k.r===2?'🥈':'🥉',place=k.r===1?'1st place':k.r===2?'2nd place':'3rd place';return '<article class="podium-card '+cl+'"><div class="podium-rank" aria-label="'+place+'" title="'+place+'"><span aria-hidden="true">'+symbol+'</span></div>'+playerAvatar(p.n,p.photo)+'<div class="pname">'+esc(p.n)+'</div><div class="pbadge">'+(unbeaten(p)?'Unbeaten':'Top '+k.r)+'</div><div class="pmetrics">'+p.g+' Games · '+p.w+' Won · '+p.l+' Lost</div></article>'}).join('')+'</div>';
   if(rest.length)out+='<div class="tbw rest-board"><table><thead><tr><th>#</th><th>Player</th><th>Games</th><th>Won</th><th>Lost</th></tr></thead><tbody>'+rest.map(function(p,i){var ix=i+3,k=rk[ix];return '<tr><td>'+(k.tie?'T'+k.r:k.r)+'</td><td>'+playerAvatar(p.n,p.photo)+esc(p.n)+(unbeaten(p)?' <small class="tie ub">Unbeaten</small>':'')+'</td><td>'+p.g+'</td><td class="w">'+p.w+'</td><td class="l">'+p.l+'</td></tr>'}).join('')+'</tbody></table></div>';
-  out+='<div class="board-actions"><button class="link2" data-a="reset">'+(armed?'Tap Again to Clear All Records':'Reset Records')+'</button>'+shareControl('shotboard')+'</div>';$('#board').innerHTML=out;
+  out+='<div class="board-actions"><button class="link2" data-a="reset">'+(armed?'Tap Again to Clear All Records':'Reset Records')+'</button>'+shareControl('shotboard')+shareControl('shottop10','Share Top 10')+'</div>';$('#board').innerHTML=out;
 }
 function seg(label,items){return '<div class="grp"><span>'+label+'</span><div class="seg">'+items+'</div></div>'}
 /* Auto-queue only fills a court by itself when exactly ONE lineup has an eligible match. If both do, the court waits for the organizer's choice. */
@@ -3432,6 +3484,7 @@ document.addEventListener('click',function(e){
   else if(a==='tab')S.tab=v;
   else if(a==='lbv')S.lbv=v;
   else if(a==='shotboard'){exportPanelShot('board','Leaderboard');return}
+  else if(a==='shottop10'){exportPanelShot('board','Top 10 Players',{top10:true});return}
   else if(a==='shotratings'){exportPanelShot('ratings','Ratings');return}
   else if(a==='lslot'){openPick(i,+b.dataset.s);return}
   else if(a==='lrmp'){{S.lineup[i].src='manual';S.lineup[i].pl[+b.dataset.s]='';FLASH=i}}
@@ -3686,8 +3739,9 @@ function fetchPlayerLink(id,cb){if(PROFILE_LINKS[id]){cb(PROFILE_LINKS[id]);retu
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-pact="getlink"],[data-pact="copylink"],[data-pact="sharelink"]');if(!b)return;var act=b.dataset.pact,id=b.dataset.id;fetchPlayerLink(id,function(token){if(act==='getlink')return;var url=playerLinkUrl(token);if(act==='copylink'){var nb=document.querySelector('[data-pact="copylink"][data-id="'+id+'"]');copyText(url,nb||b,'Copy Link')}else{var p=PROFILE_ROWS.find(function(x){return x.id===id})||{},digits=String(p.whatsapp||'').replace(/\D/g,''),msg='Hi '+(p.display_name||'')+', here is your personal CourtFlow player link: '+url+'\nOpen it to see your profile and Club Rewards card, and to edit your details. Keep it private.';window.open('https://wa.me/'+digits+'?text='+encodeURIComponent(msg),'_blank','noopener')}})});
 function lxTagNewProfiles(){S.memberTags=S.memberTags||{};var first=!S.knownProfiles,known=S.knownProfiles=S.knownProfiles||{},changed=first;PROFILE_ROWS.forEach(function(p){if(!p||!p.id||known[p.id])return;known[p.id]=1;changed=true;if(!first&&!S.memberTags['profile:'+p.id])S.memberTags['profile:'+p.id]='pay-per-play'});if(changed)save()}
 function lxMemberType(m){var t=m&&m.player_profile_id&&S.memberTags&&S.memberTags['profile:'+m.player_profile_id]||'';return t||(m&&m.membership_type)||''}
+function lxPhoto(m){var r=(typeof PROFILE_ROWS!=='undefined'&&PROFILE_ROWS||[]).find(function(x){return String(x.id)===String(m.player_profile_id)});return r&&r.photo||(S.p&&S.p[m.player_name]&&S.p[m.player_name].photo)||''}
 function lxEnrolledRow(m){var nm=m.player_name||'Player',t=lxMemberType(m),opt=function(v,l){return '<option value="'+v+'"'+(t===v?' selected':'')+'>'+l+'</option>'};
-  return '<tr><td><div class="ph-directory-person">'+playerAvatar(nm,'')+'<span><b>'+esc(nm)+'</b></span></div></td><td><select class="ph-member-select '+memberTypeClass(t)+'" data-loy-member-type="'+esc(m.member_id||'')+'" aria-label="Membership type for '+esc(nm)+'">'+opt('','Not assigned')+opt('founding','Founding Member')+opt('monthly','Monthly Subscriber')+opt('pay-per-play','Pay Per Play')+'</select></td><td><span class="lx-cardno">'+esc(m.card_number||'')+'</span></td><td class="n"><b>'+(+m.total_stamps||0)+'</b></td><td class="n"><b>'+(+m.progress||0)+'/10</b></td><td class="n"><b>'+(+m.available_rewards||0)+'</b></td><td><div class="ph-actions-inline"><button type="button" class="lv" data-pact="unenroll" data-id="'+esc(String(m.player_profile_id||''))+'">Unenroll</button><button type="button" class="lv rw-danger" data-pact="hubremove" data-id="'+esc(String(m.player_profile_id||''))+'">Remove Player</button></div></td></tr>'}
+  return '<tr><td><div class="ph-directory-person">'+playerAvatar(nm,lxPhoto(m))+'<span><b>'+esc(nm)+'</b></span></div></td><td><select class="ph-member-select '+memberTypeClass(t)+'" data-loy-member-type="'+esc(m.member_id||'')+'" aria-label="Membership type for '+esc(nm)+'">'+opt('','Not assigned')+opt('founding','Founding Member')+opt('monthly','Monthly Subscriber')+opt('pay-per-play','Pay Per Play')+'</select></td><td><span class="lx-cardno">'+esc(m.card_number||'')+'</span></td><td class="n"><b>'+(+m.total_stamps||0)+'</b></td><td class="n"><b>'+(+m.progress||0)+'/10</b></td><td class="n"><b>'+(+m.available_rewards||0)+'</b></td><td><div class="ph-actions-inline"><button type="button" class="lv" data-pact="unenroll" data-id="'+esc(String(m.player_profile_id||''))+'">Unenroll</button><button type="button" class="lv rw-danger" data-pact="hubremove" data-id="'+esc(String(m.player_profile_id||''))+'">Remove Player</button></div></td></tr>'}
 function loyaltySetTypeRemote(memberId,val){if(!USER||!cfgOk())return Promise.resolve();return tok().then(function(t){return api('/rest/v1/rpc/cf_set_loyalty_membership_type',{m:'POST',b:{p_member_id:memberId,p_membership_type:val||null},tok:t})}).catch(function(){})}
 function loyaltyMirrorPoolTag(memberId,val){if(!Array.isArray(LOYALTY_MEMBERS))return;LOYALTY_MEMBERS.forEach(function(m){if(String(m.member_id)===String(memberId)){m.membership_type=val||null;if(m.player_profile_id){S.memberTags=S.memberTags||{};var k='profile:'+m.player_profile_id;if(val)S.memberTags[k]=val;else delete S.memberTags[k];save()}}})}
 function loyaltyPushPoolTag(key,val){if(!Array.isArray(LOYALTY_MEMBERS))return;LOYALTY_MEMBERS.forEach(function(m){if(m.player_profile_id&&'profile:'+m.player_profile_id===key&&(m.membership_type||'')!==(val||'')){m.membership_type=val||null;loyaltySetTypeRemote(m.member_id,val)}})}
@@ -3757,7 +3811,7 @@ function loyaltyCardPage(){if(!LOYALTY_CARD_TOKEN)return false;['home','app','au
 var LOYALTY_ADMIN_READY=false;
 function loadLoyaltyAdmin(){if(LOYALTY_LOADING||LOYALTY_LOADED||!USER||!cfgOk())return;LOYALTY_LOADING=true;LOYALTY_ERROR='';tok().then(function(t){return Promise.all([api('/rest/v1/rpc/cf_get_my_loyalty_program',{m:'POST',b:{},tok:t}),api('/rest/v1/rpc/cf_get_my_loyalty_members',{m:'POST',b:{},tok:t})])}).then(function(a){LOYALTY_PROGRAM=Array.isArray(a[0])?a[0][0]:a[0];LOYALTY_CONFIG=Object.assign({},LOYALTY_DEFAULTS,LOYALTY_PROGRAM&&LOYALTY_PROGRAM.config||{});LOYALTY_MEMBERS=Array.isArray(a[1])?a[1]:[];loyaltySyncPoolTypes();LOYALTY_LOADING=false;LOYALTY_LOADED=true;LOYALTY_ERROR='';if(S.htab==='loyalty')render()}).catch(function(e){LOYALTY_LOADING=false;LOYALTY_LOADED=true;LOYALTY_ERROR=e.message||'Could not load Rewards settings. Run the CourtFlow Rewards SQL migration in Supabase.';if(S.htab==='loyalty')render()})}
 function loyaltyInput(id,label,value,type,attrs){return '<label class="loy-field">'+label+'<input id="'+id+'" type="'+(type||'text')+'" value="'+esc(value||'')+'" '+(attrs||'')+'></label>'}
-function loyaltyHub(){var el=document.getElementById('loyaltyhub');if(!el)return;if(!USER||!cfgOk()){el.innerHTML='<div class="loy-panel"><h2>CourtFlow Rewards</h2><p class="loy-muted">Sign in and connect Supabase to manage your Rewards program.</p></div>';return}if(!LOYALTY_LOADED){el.innerHTML='<div class="loy-panel"><h2>CourtFlow Rewards</h2><p class="loy-muted">Loading your Rewards program and enrolled players…</p></div>';loadLoyaltyAdmin();return}if(LOYALTY_ERROR){el.innerHTML='<div class="loy-panel"><h2>CourtFlow Rewards</h2><div class="loy-error">'+esc(LOYALTY_ERROR)+'</div><p class="loy-muted">The app files include a required Supabase migration named <b>Rewards SQL migration file</b>. Run it in Supabase SQL Editor, then refresh this page.</p><button type="button" class="lv" data-loyalty="reload">Retry</button></div>';return}
+function loyaltyHub(){var el=document.getElementById('loyaltyhub');if(!el)return;if(USER&&cfgOk()&&!window._cfPRdone&&(!PROFILE_ROWS||!PROFILE_ROWS.length)){window._cfPRdone=1;loadProfiles();var pn=0,piv=setInterval(function(){if((PROFILE_ROWS&&PROFILE_ROWS.length)||++pn>12){clearInterval(piv);if(S.htab==='loyalty')try{loyaltyHub()}catch(e){}}},600)}if(!USER||!cfgOk()){el.innerHTML='<div class="loy-panel"><h2>CourtFlow Rewards</h2><p class="loy-muted">Sign in and connect Supabase to manage your Rewards program.</p></div>';return}if(!LOYALTY_LOADED){el.innerHTML='<div class="loy-panel"><h2>CourtFlow Rewards</h2><p class="loy-muted">Loading your Rewards program and enrolled players…</p></div>';loadLoyaltyAdmin();return}if(LOYALTY_ERROR){el.innerHTML='<div class="loy-panel"><h2>CourtFlow Rewards</h2><div class="loy-error">'+esc(LOYALTY_ERROR)+'</div><p class="loy-muted">The app files include a required Supabase migration named <b>Rewards SQL migration file</b>. Run it in Supabase SQL Editor, then refresh this page.</p><button type="button" class="lv" data-loyalty="reload">Retry</button></div>';return}
   try{PROFILE_INVITE=PROFILE_INVITE||localStorage.getItem('cf-profile-invite:'+USER.id)||''}catch(e){}
   var cfg=Object.assign({},LOYALTY_DEFAULTS,LOYALTY_CONFIG||{}),enabled=!!(LOYALTY_PROGRAM&&LOYALTY_PROGRAM.is_active),total=LOYALTY_MEMBERS.length,stamps=LOYALTY_MEMBERS.reduce(function(n,m){return n+(+m.total_stamps||0)},0),rewards=LOYALTY_MEMBERS.reduce(function(n,m){return n+(+m.available_rewards||0)},0);
   var regUrl=PROFILE_INVITE?location.origin+location.pathname+'?profile='+PROFILE_INVITE:'';
