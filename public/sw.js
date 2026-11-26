@@ -2,7 +2,7 @@
  * Never resolve respondWith() with undefined: Safari requires a Response.
  */
 'use strict';
-var CACHE_NAME = 'courtflow-v80-logo-inline-11-stamp-presets-v38';
+var CACHE_NAME = 'courtflow-v81-session-clock-top10-v39';
 var CORE_FILES = [
   './',
   'index.html',
