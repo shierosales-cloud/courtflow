@@ -2017,24 +2017,6 @@ html,body{max-width:100%;overflow-x:clip}
 .reset-btn:hover{background:color-mix(in srgb,var(--bad) 18%,var(--panel))}
 .reset-btn:active{transform:translateY(2px);box-shadow:none}
 .reset-btn.armed{background:var(--bad);color:#fff}
-/* Session length countdown */
-#sessclock{margin:0 0 12px;padding:12px 16px;border-radius:16px;background:linear-gradient(135deg,#17496A,#0A2133 70%);color:#EAF1EC;box-shadow:var(--sh)}
-#sessclock[hidden]{display:none}
-.sclock-main{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.sclock-l{font:700 .8rem 'DM Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
-.sclock-t{font:700 2rem/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums;color:var(--ball,#D9E84B)}
-.sclock-t.over,.sclk b.over{color:#FF9C8C}
-.sclock-bar{flex:1 1 140px;height:8px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}
-.sclock-bar i{display:block;height:100%;width:100%;border-radius:99px;background:var(--ball,#D9E84B)}
-.sclock-note{margin:8px 0 0;font-size:.86rem;line-height:1.4;opacity:.92}
-.sclk:not([hidden]){display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:#0C2230;color:#EAF1EC;font:700 .85rem 'DM Sans',sans-serif}
-.sclk b{font-variant-numeric:tabular-nums;color:var(--ball,#D9E84B)}
-#sesscfg #settings #shrs{box-sizing:border-box!important;display:block!important;width:100%!important;max-width:180px!important;min-height:46px!important;height:46px!important;margin:0 0 8px!important;padding:8px 12px!important;text-align:left!important}
-#sesscfg #settings .setting-hours .vsl2{display:block;width:100%;white-space:normal;overflow-wrap:anywhere;color:var(--muted);font-size:.8rem;line-height:1.4}
-#sessclock .sclock-bar{display:block;flex:none;margin-top:8px}
-.sclock-start{min-height:40px;padding:0 20px;border:0;border-radius:10px;background:#B7D63A;color:#142B35;font:800 .95rem 'DM Sans',sans-serif;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.25)}
-.sclock-start:active{transform:translateY(2px);box-shadow:none}
-.sclock-chip{flex:1 1 220px;min-width:0;font:600 .88rem/1.35 'DM Sans',sans-serif;padding:6px 12px;border-radius:10px;background:rgba(255,255,255,.12)}
 </style>
 </head>
 <body>
@@ -2046,7 +2028,7 @@ html,body{max-width:100%;overflow-x:clip}
 <div id="live" hidden></div>
 <div id="home"><div id="userbar"></div><nav id="htabs" role="tablist" aria-label="Home"></nav><div id="sess"></div></div>
 <div id="app" hidden><div id="sesshead"></div><nav id="tabs" role="tablist" aria-label="Session sections"></nav>
-<section id="p-play"><div id="sessclock" hidden></div><div id="stats"></div><div id="courtwrap"><div class="cwh"><h2>Courts</h2><span id="sessclk" class="sclk" hidden></span><button type="button" class="fsb" data-a="fs"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4"/></svg>Full Screen</button><button type="button" class="fsb fsx" data-a="fsx"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v4H2M10 2v4h4M6 14v-4H2M10 14v-4h4"/></svg>Exit Full Screen</button></div><div id="cmsg" role="status" aria-live="polite"></div><section id="courts" aria-label="Courts"></section><section id="upnext" aria-label="Up Next"></section><div id="nextbar" aria-live="polite"></div></div><div id="sched"></div><section id="lineup" aria-label="Match line-up"></section></section>
+<section id="p-play"><div id="stats"></div><div id="courtwrap"><div class="cwh"><h2>Courts</h2><button type="button" class="fsb" data-a="fs"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4"/></svg>Full Screen</button><button type="button" class="fsb fsx" data-a="fsx"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v4H2M10 2v4h4M6 14v-4H2M10 14v-4h4"/></svg>Exit Full Screen</button></div><div id="cmsg" role="status" aria-live="polite"></div><section id="courts" aria-label="Courts"></section><section id="upnext" aria-label="Up Next"></section><div id="nextbar" aria-live="polite"></div></div><div id="sched"></div><section id="lineup" aria-label="Match line-up"></section></section>
 <aside id="p-players" hidden>
 <h2 id="qh">Players Line Up</h2><div id="qsum"></div>
 <div class="bulk-tools"><button type="button" class="lv" data-a="bulkline">Bulk Upload Players</button><button type="button" class="lv" data-a="dupreport">Export DUPR Match Report (CSV)</button><input id="lineup-csv" type="file" accept=".csv,text/csv" hidden></div><form id="f"><input id="in" placeholder="Name, or several separated by commas" autocomplete="off" aria-label="Player name"><select id="sk" aria-label="Skill level"><option value="1">Newbie (2.0)</option><option value="2">Novice (2.5)</option><option value="3" selected>Low Intermediate (3.0)</option><option value="4">High Intermediate (3.5)</option><option value="5">Advanced (4.0)</option><option value="6">Expert (4.5–5.0)</option></select><select id="gd" aria-label="Gender"><option value="">No Gender</option><option value="M">Man</option><option value="W">Woman</option></select><button>Add</button></form>
@@ -2085,7 +2067,7 @@ var KEY='pb-queue-v2:'+(USER?USER.id:'none');
 var S={courts:2,size:4,stay:true,mode:'line',queue:[],games:[null,null],sched:[],p:{}};
 var POST_PHONES={},POST_PHONE_LOADING=false,POST_PHONE_LOADED=false;
 try{var raw=USER?localStorage.getItem(KEY):null;if(USER&&!raw){try{var lg=localStorage.getItem('pb-queue-v2');if(lg&&!localStorage.getItem('cf-legacy-used')){raw=lg;localStorage.setItem('cf-legacy-used','1')}}catch(e){}}if(raw){var o=JSON.parse(raw);if(o&&Array.isArray(o.queue)&&Array.isArray(o.games))S=o}}catch(e){}
-S.sched=S.sched||[];S.p=S.p||{};S.mode=S.mode||'line';S.ends=S.ends||[];S.ct=S.ct||[];S.sc=S.sc||[];S.hist=S.hist||[];S.auto=false;S.stay=false;S.hd=S.hd||[];S.lineup=S.lineup||[];S.lt=S.lt||'any';S.start='manual';S.delay=S.delay||60;S.mt=S.mt||'any';S.em=S.em||[];S.tab=S.tab||'play';S.sessions=S.sessions||[];if(S.sess===undefined)S.sess=(S.queue.length||S.hist.length||S.games.some(Boolean))?{name:'Session 1',start:Date.now()}:null;S.roster=S.roster||[];S.memberTags=S.memberTags||{};S.analyticsRange=S.analyticsRange==='monthly'?'monthly':'weekly';S.analyticsFrom=typeof S.analyticsFrom==='string'?S.analyticsFrom:'';S.analyticsTo=typeof S.analyticsTo==='string'?S.analyticsTo:'';S.analyticsDate='';S.gen=S.gen||{n:12,t:{mixed:true,women:true,men:true,any:false}};S.genb=S.genb||{n:4,t:{mixed:false,women:false,men:false,any:true}};S.view='home';S.htab='create';if(['play','players','directory','board','ratings','hist'].indexOf(S.tab)<0)S.tab='play';S.edit=null;S.lineup=S.lineup.map(function(x){return typeof x==='string'?{t:x}:x});if(S.mins==null)S.mins=15;if(S.shrs==null)S.shrs=0;if(S.shrsAt===undefined)S.shrsAt=null;var armed=false,rresetArmed=false;var LV={1:'Newbie',2:'Novice',3:'Low Intermediate',4:'High Intermediate',5:'Advanced',6:'Expert'},LS={1:'2.0+',2:'2.5+',3:'3.0+',4:'3.5+',5:'4.0+',6:'4.5+'};
+S.sched=S.sched||[];S.p=S.p||{};S.mode=S.mode||'line';S.ends=S.ends||[];S.ct=S.ct||[];S.sc=S.sc||[];S.hist=S.hist||[];S.auto=false;S.stay=false;S.hd=S.hd||[];S.lineup=S.lineup||[];S.lt=S.lt||'any';S.start='manual';S.delay=S.delay||60;S.mt=S.mt||'any';S.em=S.em||[];S.tab=S.tab||'play';S.sessions=S.sessions||[];if(S.sess===undefined)S.sess=(S.queue.length||S.hist.length||S.games.some(Boolean))?{name:'Session 1',start:Date.now()}:null;S.roster=S.roster||[];S.memberTags=S.memberTags||{};S.analyticsRange=S.analyticsRange==='monthly'?'monthly':'weekly';S.analyticsFrom=typeof S.analyticsFrom==='string'?S.analyticsFrom:'';S.analyticsTo=typeof S.analyticsTo==='string'?S.analyticsTo:'';S.analyticsDate='';S.gen=S.gen||{n:12,t:{mixed:true,women:true,men:true,any:false}};S.genb=S.genb||{n:4,t:{mixed:false,women:false,men:false,any:true}};S.view='home';S.htab='create';if(['play','players','directory','board','ratings','hist'].indexOf(S.tab)<0)S.tab='play';S.edit=null;S.lineup=S.lineup.map(function(x){return typeof x==='string'?{t:x}:x});if(S.mins==null)S.mins=15;delete S.shrs;delete S.shrsAt;var armed=false,rresetArmed=false;var LV={1:'Newbie',2:'Novice',3:'Low Intermediate',4:'High Intermediate',5:'Advanced',6:'Expert'},LS={1:'2.0+',2:'2.5+',3:'3.0+',4:'3.5+',5:'4.0+',6:'4.5+'};
 if(!S.v3){Object.keys(S.p).forEach(function(n){var s=S.p[n].s;S.p[n].s=s<3?1:s===3?2:3});S.sched.forEach(function(m){m.forEach(function(n){if(S.queue.concat(flat(S.games.filter(Boolean))).indexOf(n)<0)S.queue.push(n)})});S.v3=1}
 if(!S.v22){Object.keys(S.p).forEach(function(n){S.p[n].o=0});S.v22=1}S.cm=S.cm||[];if(S.prot==null)S.prot=1;S.qseq=S.qseq||0;S.bseq=S.bseq||0;
 var CLOCK=null,CMSG='';function nowMs(){return CLOCK==null?Date.now():CLOCK}
@@ -2917,13 +2899,13 @@ function endSession(){
   }
   S.games=S.games.map(function(){return null});S.hd=[];S.ends=[];S.sc=[];S.em=[];S.queue=[];S.hist=[];S.lineup=[];S.sched=[];S.hadLineup=false;
   Object.keys(S.p).forEach(function(n){S.p[n].w=S.p[n].l=0;S.p[n].o=0;S.p[n].pa=false;delete S.p[n].lc;delete S.p[n].at;delete S.p[n].act});
-  S.sess=null;S.shrsAt=null;S.cm=[];S.asig=undefined;S.view='home';S.htab='prev';
+  S.sess=null;S.cm=[];S.asig=undefined;S.view='home';S.htab='prev';
 }
 function startSession(){
   var name=(S.nsn||'').trim()||'Session '+(S.sessions.length+(S.sess?2:1));
   if(S.sess)endSession();
   S.queue=S.carry!==false?S.roster.filter(function(n){return S.p[n]}):[];
-  S.sess={name:name,start:Date.now(),attendees:[]};S.shrsAt=null;S.cm=[];S.asig=undefined;S.queue.forEach(function(n){stamp(n,true);markSessionAttendance(n)});S.nsn='';S.view='session';S.tab='play';S.htab='create';
+  S.sess={name:name,start:Date.now(),attendees:[]};S.cm=[];S.asig=undefined;S.queue.forEach(function(n){stamp(n,true);markSessionAttendance(n)});S.nsn='';S.view='session';S.tab='play';S.htab='create';
 }
 var opened={},delIdx=-1;
 document.addEventListener('toggle',function(e){var k=e.target.dataset&&e.target.dataset.k;if(k)opened[k]=e.target.open},true);
@@ -2936,6 +2918,7 @@ function postMessage(rec,p){var ms=(rec.m||[]).filter(function(m){return (m.a||[
   if(lines.length)t+='\n\nYOUR MATCHES\n'+lines.join('\n');
   t+='\n\nWe would love your feedback. Please take a minute to share how the session went:\n'+postFeedbackUrl(rec,p.n,p)+'\n\nThanks again, and see you on court! 💙 🫡';return t;
 }
+function postImageCaption(rec,p){return 'Hi '+p.n+'! 👋\n\nThank you for joining '+rec.name+'! We hope you enjoyed the games and the time with the community. Here is your Session Recap🏓\n\nWe would love your feedback. Please take a minute to share how the session went:\n'+postFeedbackUrl(rec,p.n,p)+'\n\nThanks again, and see you on court! 💙 🫡'}
 function postWaHref(rec,p){var phone=POST_PHONES[p.profileId]||'';phone=String(phone).replace(/[^0-9]/g,'');return phone?'https://wa.me/'+phone+'?text='+encodeURIComponent(postMessage(rec,p)):''}
 function loadPostPhones(){var rec=S.lastPostRecap;if(!rec||POST_PHONE_LOADING||POST_PHONE_LOADED||!USER||!cfgOk())return;var ids=(rec.p||[]).map(function(p){return p.profileId}).filter(Boolean);if(!ids.length){POST_PHONE_LOADED=true;return}POST_PHONE_LOADING=true;tok().then(function(t){return api('/rest/v1/cf_player_profiles?select=id,whatsapp&id=in.('+ids.join(',')+')',{tok:t})}).then(function(rows){POST_PHONES={};(rows||[]).forEach(function(x){if(x.whatsapp)POST_PHONES[x.id]=x.whatsapp});POST_PHONE_LOADING=false;POST_PHONE_LOADED=true;render()}).catch(function(){POST_PHONE_LOADING=false})}
 function postRecapHTML(){var rec=S.lastPostRecap;if(!rec)return '';loadPostPhones();return '<section class="post-recap"><h3>Post-Session Player Recap</h3><p class="lbn">Your session has ended. Review each player’s personalized recap and feedback link before sending it. Messages are never sent automatically.</p><div class="post-recap-head"><b>'+esc(rec.name)+'</b><span>'+fd(rec.end)+'</span></div>'+(rec.p||[]).map(function(p,idx){var href=postWaHref(rec,p),n=esc(p.n),tot=p.w+p.l,placement=postPlacement(p),place=placement?'<small class="post-placement">Overall leaderboard · '+esc(placement)+'</small>':'',delta=(typeof p.oldR==='number'&&typeof p.r==='number')?p.r-p.oldR:null,rate=delta===null?'':('<span class="post-rating"><small>Rating</small><b>'+p.oldR.toFixed(2)+' <i>→</i> '+p.r.toFixed(2)+'</b><em class="'+(delta>0.0049?'up':delta<-0.0049?'dn':'')+'">'+sgn(delta)+'</em></span>');return '<div class="post-player"><div class="post-player-info"><b>'+n+'</b><small>'+tot+' matches · '+p.w+' wins · '+p.l+' losses · '+(tot?Math.round(p.w/tot*100):0)+'% wins</small>'+place+rate+'</div>'+'<div class="post-actions">'+(href?'<a class="lb post-send" href="'+esc(href)+'" target="_blank" rel="noopener">Open WhatsApp</a>':'<span class="post-missing">No linked WhatsApp number</span>')+'<button type="button" class="lv post-img" data-postimg="'+idx+'">Share Image</button></div></div>'}).join('')+'<p class="lbn">Players without a linked profile/WhatsApp number can be updated in Player Pool. The feedback link opens a secure CourtFlow form.</p></section>'}
@@ -3123,35 +3106,9 @@ function confirmDlg(){
   else{S.lineup.push({t:ty,pl:n,src:'manual',grp:grp});FLASH=S.lineup.length-1}
   $('#dlg').close();
 }
-function sessRunning(){return !!(S.sess&&S.shrs>0&&S.shrsAt>0)}
-function sessEndTs(){return sessRunning()?S.shrsAt+S.shrs*3600000:0}
-function sessLeft(){return sessRunning()?Math.max(0,sessEndTs()-Date.now()):(S.shrs||0)*3600000}
-function fmtHMS(ms){var t=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(t/3600),m=Math.floor(t%3600/60),x=t%60;return h+':'+('0'+m).slice(-2)+':'+('0'+x).slice(-2)}
-function fmtHrs(h){h=Math.round(h*100)/100;return h+(h===1?' hour':' hours')}
-function sessCalc(){
-  if(!(S.shrs>0))return {msg:'Enter the hours to see how many games the session can fit.'};
-  var mt=+S.mins||0;if(!mt)return {msg:'Set a Match Time (minutes per game) to estimate how many games fit in '+fmtHrs(S.shrs)+'.'};
-  var act=allNames().filter(function(n){return !S.p[n].pa}).length,per=S.size||4,use=Math.min(S.courts||1,Math.floor(act/per));
-  if(use<1)return {msg:'Add at least '+per+' active players to estimate how many games fit in '+fmtHrs(S.shrs)+'.'};
-  var rounds=Math.floor(S.shrs*60/mt);
-  return {ok:1,mt:mt,act:act,per:per,use:use,rounds:rounds,tot:rounds*use,more:Math.floor(sessLeft()/60000/mt)*use}}
-function sessEstimate(){var c=sessCalc();if(!c.ok)return c.msg;
-  return 'About '+c.tot+' games can fit in '+fmtHrs(S.shrs)+': '+c.rounds+' rounds × '+c.use+(c.use===1?' court':' courts')+' in use, '+c.mt+' min per game, '+c.act+' active players (about '+(c.tot*c.per/c.act).toFixed(1)+' games each). '+(S.sess?S.hist.length+' played so far. ':'')+'Estimate assumes games run back to back.'}
-function sessNote(){var c=sessCalc();if(!c.ok)return c.msg;return 'Fits about '+c.tot+' games · about '+c.more+' more can fit in the '+(sessRunning()?'time left':'session time')}
-function sessClock(){
-  var el=$('#sessclock'),pill=$('#sessclk');if(!el)return;
-  if(!(S.sess&&S.shrs>0)){el.innerHTML='';el.hidden=true;if(pill){pill.hidden=true;pill.innerHTML=''}return}
-  var run=sessRunning(),end=sessEndTs(),full=fmtHMS(S.shrs*3600000);
-  el.hidden=false;el.innerHTML='<div class=\"sclock-main\"><span class=\"sclock-l\">'+(run?'Session time remaining':'Session length')+'</span>'+(run?'<b class=\"sclock-t\" data-send=\"'+end+'\"></b>':'<b class=\"sclock-t\">'+full+'</b><button type=\"button\" class=\"sclock-start\" data-a=\"sstart\">Start</button>')+'<span class=\"sclock-chip\" id=\"sclock-chip\">'+esc(sessNote())+'</span></div>'+(run?'<span class=\"sclock-bar\"><i data-sbar></i></span>':'')+'<p class=\"sclock-note\">'+esc(sessEstimate())+'</p>';
-  if(pill){pill.hidden=false;pill.innerHTML=run?'<span>Session</span><b data-send=\"'+end+'\"></b>':'<span>Session</span><b>'+full+'</b>'}
-  tick()}
 function tm(i){return S.ends[i]>0?'<span class="tm" data-end="'+S.ends[i]+'"></span>':''}
 function beep(){try{var c=new (window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator();o.frequency.value=880;o.connect(c.destination);o.start();o.stop(c.currentTime+.5)}catch(e){}}
-var SCMIN=0;
 function tick(){
-  document.querySelectorAll('[data-send]').forEach(function(el){var r=+el.dataset.send-Date.now();el.textContent=r>0?fmtHMS(r):'Time’s up';el.classList.toggle('over',r<=0)});
-  var sb=document.querySelector('#sessclock [data-sbar]');if(sb&&S.shrs>0&&sessRunning()){var rr=sessEndTs()-Date.now();sb.style.width=Math.max(0,Math.min(100,rr/(S.shrs*3600000)*100))+'%'}
-  var mn=Math.floor(Date.now()/60000);if(mn!==SCMIN){SCMIN=mn;var sn=document.querySelector('#sessclock .sclock-note');if(sn)sn.textContent=sessEstimate();var sch=document.getElementById('sclock-chip');if(sch)sch.textContent=sessNote()}
   document.querySelectorAll('.hc[data-end]').forEach(function(el){var r=Math.ceil((+el.dataset.end-Date.now())/1000);el.textContent=r>0?'Starts in '+Math.floor(r/60)+':'+('0'+r%60).slice(-2):'Starting…'});
   document.querySelectorAll('.tm').forEach(function(el){
     var r=+el.dataset.end-Date.now(),sec=Math.ceil(r/1000),c=el.closest('.court');
@@ -3459,11 +3416,8 @@ function buildPostRecapSVG(rec,p){
     if(ms.length>shown.length){txt(pad,y+28,'+ '+(ms.length-shown.length)+' more '+((ms.length-shown.length)===1?'match':'matches'),22,'#607783',600);y+=44}
     y+=14;
   }
-  /* footer */
-  rect(pad,y,inner,104,'#EEF6C9',20);
-  txt(W/2,y+46,'Tap the feedback link under this image',28,'#102D3B',700,'middle');
-  txt(W/2,y+82,'to tell us how the session went. See you on court!',24,'#3B5563',400,'middle');
-  y+=104+56;
+  /* bottom padding */
+  y+=24;
   var height=y;
   return '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'+W+'" height="'+height+'" viewBox="0 0 '+W+' '+height+'"><rect x="0" y="0" width="'+W+'" height="'+height+'" fill="#FFFFFF"/>'+parts.join('')+'</svg>';
 }
@@ -3471,7 +3425,7 @@ function sharePostRecapImage(idx){
   var rec=S.lastPostRecap,p=rec&&rec.p&&rec.p[idx];if(!p){msg('Recap not found. Please reopen the post-session recap and try again.');return}
   var link=postFeedbackUrl(rec,p.n,p);
   SHOT_FILENAME='courtflow-recap-'+String(p.n).replace(/[^a-z0-9]+/gi,'-').toLowerCase()+'.png';SHOT_TITLE='CourtFlow recap · '+p.n;
-  SHOT_LINK=link;SHOT_TEXT='Hi '+p.n+'! Here is your recap from '+rec.name+' 🏓\n\nWe would love your feedback — it takes a minute:\n'+link;
+  SHOT_LINK=link;SHOT_TEXT=postImageCaption(rec,p);
   var d=ensureShotDialog(),img=d.querySelector('#shotdlg-img'),wait=d.querySelector('#shotdlg-wait'),status=d.querySelector('#shotdlg-status');
   d.querySelector('#shotdlg-copy').hidden=false;
   d.querySelector('#shotdlg-title').textContent='Preparing '+p.n+'’s recap image';status.textContent='Preparing your image…';img.removeAttribute('src');img.style.display='none';if(wait){wait.hidden=false;wait.textContent='Building the recap card…'}
@@ -3554,7 +3508,6 @@ function render(){
     R('Format','Choose singles or doubles play.',G(b('fmt',4,'Doubles',S.size===4)+b('fmt',2,'Singles',S.size===2)),0,'setting-format')+
     R('Match Mode',HINT[S.mode]||HINT.balanced,G([['balanced','SmartFlow'],['line','FIFO'],['skill','Skill Match'],['record','Win/Loss']].map(function(m){return b('mode',m[0],m[1],S.mode===m[0])}).join(''),'settings-mode-options'),3,'setting-mode')+
     R('Match Time','Minutes per game. Set to 0 to turn the timer off.','<input id="mins" type="number" inputmode="numeric" min="0" max="120" value="'+S.mins+'" aria-label="Match time in minutes, 0 turns the timer off">',0,'setting-time')+
-    R('Session Length','Total hours this session will run. Press Start on the Court screen to begin the countdown. Set to 0 to turn it off.','<input id="shrs" type="number" inputmode="decimal" min="0" max="24" step="0.25" value="'+(S.shrs||0)+'" aria-label="Session length in hours, 0 turns the countdown off"><div class="vsl2" id="sessest">'+esc(sessEstimate())+'</div>',0,'setting-time setting-hours')+
     R('Voice','Choose the voice used for match announcements.','<div class="voicebox"><select id="vsel" aria-label="Voice source"><option value="offline"'+(voiceMode()==='offline'?' selected':'')+'>Natural voice (offline after first download)</option><option value="device"'+(voiceMode()==='device'?' selected':'')+'>Device voice (system voice)</option></select><div id="vstat" class="vsl2">'+esc(VST)+'</div></div>',3,'setting-voice');
   var h=S.size/2,html='';
   var foot=function(i){return '<div class="cf"><button class="link" data-a="ret" data-i="'+i+'">Return Players to Queue</button><button class="link" data-a="emp" data-i="'+i+'">Make Court Empty</button></div>'};
@@ -3571,7 +3524,7 @@ function render(){
       html+='<section class="court">'+hh+'</div><div class="surf empty">'+cardBody(pvs,pk,i)+'</div><div class="row"><button class="btn" data-a="dlg" data-i="'+i+'">Pick Players</button><button class="btn go" data-a="start" data-i="'+i+'">Use Court</button></div><div class="cf"><button class="link" data-a="emp" data-i="'+i+'">Make Court Empty</button></div></section>';
     }
   });
-  $('#courts').innerHTML=html;$('#courts').classList.toggle('four',S.courts===4);$('#upnext').innerHTML=upNextHTML();sessClock();
+  $('#courts').innerHTML=html;$('#courts').classList.toggle('four',S.courts===4);$('#upnext').innerHTML=upNextHTML();
   $('#courtwrap').classList.toggle('fs',FS);document.body.classList.toggle('fsmode',FS);if(FS)$('#nextbar').innerHTML=nextBar();
   $('#sched').innerHTML=S.sched.length?'<h3>Scheduled ('+S.sched.length+'/10)</h3><ul>'+S.sched.map(function(m,i){var w=m.some(function(n){return S.queue.indexOf(n)<0});return '<li><div>'+mu(m,{d:1,e:{k:'s',i:i}})+(w?'<small class="rec">A player is on court right now.</small>':'')+'</div><button class="x" data-a="unsched" data-i="'+i+'" aria-label="Cancel scheduled match">×</button></li>'}).join('')+'</ul>':'';
   board();ratingsTab();lineup();hist();stats();sess();scale();tabs();if(S.tab==='directory'||S.htab==='profiles')profileHub();if(S.htab==='loyalty')loyaltyHub();tick();
@@ -3624,7 +3577,6 @@ document.addEventListener('click',function(e){
   else if(a==='pstat'){openStats(b.dataset.n);return}
   else if(a==='tab')S.tab=v;
   else if(a==='lbv')S.lbv=v;
-  else if(a==='sstart'){if(S.shrs>0&&!S.shrsAt)S.shrsAt=Date.now()}
   else if(a==='shotboard'){exportPanelShot('board','Leaderboard');return}
   else if(a==='shottop10'){exportPanelShot('board','Top 10 Players',{top10:true});return}
   else if(a==='shotratings'){exportPanelShot('ratings','Ratings');return}
@@ -3670,7 +3622,7 @@ document.addEventListener('click',function(e){
   if(PEND!=null){var pc=PEND;PEND=null;if(S.sess&&!S.games[pc])startAssign(pc)}
 });
 document.addEventListener('change',function(e){if(e.target&&e.target.dataset&&e.target.dataset.loyMemberType){var sel=e.target,memberId=sel.dataset.loyMemberType;sel.disabled=true;loyaltyMirrorPoolTag(memberId,sel.value);tok().then(function(t){return api('/rest/v1/rpc/cf_set_loyalty_membership_type',{m:'POST',b:{p_member_id:memberId,p_membership_type:sel.value||null},tok:t})}).then(function(){LOYALTY_LOADED=false;LOYALTY_LOADING=false;loadLoyaltyAdmin()}).catch(function(err){alert('Could not update membership type: '+err.message);LOYALTY_LOADED=false;LOYALTY_LOADING=false;loadLoyaltyAdmin()}).finally(function(){sel.disabled=false});return}});
-document.addEventListener('change',function(e){if(e.target&&e.target.dataset&&e.target.dataset.analyticsFrom!==undefined){S.analyticsFrom=e.target.value||'';save();sess();return}if(e.target&&e.target.dataset&&e.target.dataset.analyticsTo!==undefined){S.analyticsTo=e.target.value||'';save();sess();return}if(e.target&&e.target.dataset&&e.target.dataset.memberTag!==undefined){var mt=e.target.dataset.memberTag;S.memberTags=S.memberTags||{};if(e.target.value)S.memberTags[mt]=e.target.value;else delete S.memberTags[mt];save();loyaltyPushPoolTag(mt,e.target.value);drawProfiles();return}if(e.target.id==='feedback-session'){FB_SESSION=e.target.value;sess();return}if(e.target.dataset.gu!==undefined){gcfg(e.target.dataset.gg).uneven=e.target.checked;render();return}if(e.target.dataset.gt){var gc=gcfg(e.target.dataset.gg),gk=e.target.dataset.gt;gc.t[gk]=e.target.checked;if(e.target.checked){gc.t.rr=false}render();return}if(/^gn-/.test(e.target.id)){gcfg(e.target.id.slice(3)).n=Math.max(1,Math.min(60,parseInt(e.target.value,10)||1));render();return}if(e.target.id==='carry'){S.carry=e.target.checked;save();return}if(e.target.dataset.ty!=null){S.ct[+e.target.dataset.ty]=e.target.value;S.auto=true;render();return}if(/^lt-/.test(e.target.id)){S.lt=e.target.value;save();render();return}if(e.target.id==='delay'){S.delay=Math.max(5,Math.min(600,parseInt(e.target.value,10)||60));render();return}if(e.target.id==='shrs'){var hh2=parseFloat(String(e.target.value).replace(',','.'));hh2=isNaN(hh2)?0:Math.max(0,Math.min(24,Math.round(hh2*4)/4));if(!(hh2>0))S.shrsAt=null;S.shrs=hh2;save();render();return}if(e.target.id==='mins'){S.mins=Math.max(0,Math.min(120,parseInt(e.target.value,10)||0));render()}});
+document.addEventListener('change',function(e){if(e.target&&e.target.dataset&&e.target.dataset.analyticsFrom!==undefined){S.analyticsFrom=e.target.value||'';save();sess();return}if(e.target&&e.target.dataset&&e.target.dataset.analyticsTo!==undefined){S.analyticsTo=e.target.value||'';save();sess();return}if(e.target&&e.target.dataset&&e.target.dataset.memberTag!==undefined){var mt=e.target.dataset.memberTag;S.memberTags=S.memberTags||{};if(e.target.value)S.memberTags[mt]=e.target.value;else delete S.memberTags[mt];save();loyaltyPushPoolTag(mt,e.target.value);drawProfiles();return}if(e.target.id==='feedback-session'){FB_SESSION=e.target.value;sess();return}if(e.target.dataset.gu!==undefined){gcfg(e.target.dataset.gg).uneven=e.target.checked;render();return}if(e.target.dataset.gt){var gc=gcfg(e.target.dataset.gg),gk=e.target.dataset.gt;gc.t[gk]=e.target.checked;if(e.target.checked){gc.t.rr=false}render();return}if(/^gn-/.test(e.target.id)){gcfg(e.target.id.slice(3)).n=Math.max(1,Math.min(60,parseInt(e.target.value,10)||1));render();return}if(e.target.id==='carry'){S.carry=e.target.checked;save();return}if(e.target.dataset.ty!=null){S.ct[+e.target.dataset.ty]=e.target.value;S.auto=true;render();return}if(/^lt-/.test(e.target.id)){S.lt=e.target.value;save();render();return}if(e.target.id==='delay'){S.delay=Math.max(5,Math.min(600,parseInt(e.target.value,10)||60));render();return}if(e.target.id==='mins'){S.mins=Math.max(0,Math.min(120,parseInt(e.target.value,10)||0));render()}});
 document.addEventListener('change',function(e){if(e.target&&e.target.dataset&&e.target.dataset.loyaltyAsset){loyaltyAssetChanged(e.target);return}});
 document.addEventListener('input',function(e){if(e.target&&e.target.closest&&e.target.closest('#loyalty-designer')){drawLoyaltyPreview()}});
 document.addEventListener('click',function(e){var b=e.target.closest('[data-loyalty]');if(!b)return;var a=b.dataset.loyalty;if(a==='save'){saveLoyaltyProgram(true)}else if(a==='draft'){saveLoyaltyProgram(false)}else if(a==='reset'){if(!confirm('Restore the default Club Rewards card design? Your current saved design will be replaced when you publish.'))return;LOYALTY_CONFIG=Object.assign({},LOYALTY_DEFAULTS);LOYALTY_FILES={};LOYALTY_LOADED=true;LOYALTY_LOADING=false;render()}else if(a==='new-link'){loyaltyMakeRegistrationLink()}else if(a==='copy-link'){var x=document.getElementById('loy-reg-url');if(x){x.select();if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(x.value).then(function(){b.textContent='Copied'}).catch(function(){document.execCommand('copy')});else document.execCommand('copy')}}else if(a==='redeem'){redeemLoyaltyReward()}else if(a==='reload'){LOYALTY_LOADED=false;LOYALTY_LOADING=false;LOYALTY_ERROR='';render()} });
